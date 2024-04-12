@@ -2,7 +2,7 @@
 <resources>
     <color name="color_disabled">#DADADA</color>
     <color name="color_default">#31A6F6</color>
-    <color name="color_text_hint">#93D2FD</color>
+    <color name="color_text_hint">#91CEF8</color>
 
     <color name="color_sucess">#24BC61</color>
     <color name="color_error">#FA0014</color>

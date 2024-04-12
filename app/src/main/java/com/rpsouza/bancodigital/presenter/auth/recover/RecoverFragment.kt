@@ -1,22 +1,21 @@
-package com.rpsouza.bancodigital.presenter.splash
+package com.rpsouza.bancodigital.presenter.auth.recover
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.rpsouza.bancodigital.R
-import com.rpsouza.bancodigital.databinding.FragmentSplashBinding
+import com.rpsouza.bancodigital.databinding.FragmentRecoverBinding
 
-class SplashFragment : Fragment() {
-  private var _binding: FragmentSplashBinding? = null
+class RecoverFragment : Fragment() {
+  private var _binding: FragmentRecoverBinding? = null
   private val binding get() = _binding!!
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
-    _binding = FragmentSplashBinding.inflate(inflater, container, false)
+    _binding = FragmentRecoverBinding.inflate(inflater, container, false)
     return binding.root
   }
 
