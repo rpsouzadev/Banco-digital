@@ -4,6 +4,10 @@ plugins {
 
   // Firebase
   id("com.google.gms.google-services")
+
+  // Dagger hilt with KSP
+  id("com.google.dagger.hilt.android")
+  id("com.google.devtools.ksp")
 }
 
 android {
@@ -50,6 +54,10 @@ dependencies {
   implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
   implementation("com.google.firebase:firebase-auth")
   implementation("com.google.firebase:firebase-database")
+
+  // Dagger hilt with KSP
+  implementation("com.google.dagger:hilt-android:2.48.1")
+  ksp("com.google.dagger:hilt-android-compiler:2.48.1")
 
   // Tests
   testImplementation(libs.junit)
