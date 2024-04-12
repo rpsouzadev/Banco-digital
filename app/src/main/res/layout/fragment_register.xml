@@ -43,6 +43,7 @@
             android:paddingVertical="16dp">
 
             <EditText
+                android:id="@+id/editNameRegister"
                 style="@style/Theme.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,6 +53,7 @@
                 android:hint="@string/text_label_name_register_fragment" />
 
             <EditText
+                android:id="@+id/editEmailRegister"
                 style="@style/Theme.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -60,6 +62,7 @@
                 android:hint="@string/text_label_email_register_fragment" />
 
             <EditText
+                android:id="@+id/editPhoneRegister"
                 style="@style/Theme.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,6 +71,7 @@
                 android:hint="@string/text_label_phone_register_fragment" />
 
             <EditText
+                android:id="@+id/editPasswordRegister"
                 style="@style/Theme.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,6 +80,7 @@
                 android:hint="@string/text_label_password_register_fragment" />
 
             <EditText
+                android:id="@+id/editPasswordConfirmRegister"
                 style="@style/Theme.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,22 +89,24 @@
                 android:hint="@string/text_label_confirm_password_register_fragment" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/materialButton"
+                android:id="@+id/buttomRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_buttom"
                 android:text="@string/text_btn_register_fragment"
                 app:backgroundTint="@null" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"
+                android:indeterminateTint="@color/color_default" />
         </LinearLayout>
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"
-            android:indeterminateTint="@color/color_default" />
 
     </LinearLayout>
 

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.databinding.FragmentLoginBinding
 import com.rpsouza.bancodigital.databinding.FragmentSplashBinding
@@ -19,6 +20,61 @@ class LoginFragment : Fragment() {
   ): View {
     _binding = FragmentLoginBinding.inflate(inflater, container, false)
     return binding.root
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    initListeners()
+  }
+
+  private fun initListeners() {
+    binding.buttomLogin.setOnClickListener { validateData() }
+
+    binding.buttomRecoverLink.setOnClickListener {
+      Toast.makeText(
+        requireContext(),
+        "recuperar conta",
+        Toast.LENGTH_SHORT
+      ).show()
+    }
+
+    binding.buttomRegisterLink.setOnClickListener {
+      Toast.makeText(
+        requireContext(),
+        "Registrar conta",
+        Toast.LENGTH_SHORT
+      ).show()
+    }
+  }
+
+  private fun validateData() {
+    val email = binding.editEmail.text.toString().trim()
+    val password = binding.editPassword.text.toString().trim()
+
+    if (email.isNotEmpty()) {
+      if (password.isNotEmpty()) {
+
+        Toast.makeText(
+          requireContext(),
+          "Login...",
+          Toast.LENGTH_SHORT
+        ).show()
+
+      } else {
+        Toast.makeText(
+          requireContext(),
+          "Preencha a senha",
+          Toast.LENGTH_SHORT
+        ).show()
+      }
+    } else {
+      Toast.makeText(
+        requireContext(),
+        "Preencha o email",
+        Toast.LENGTH_SHORT
+      ).show()
+    }
   }
 
   override fun onDestroy() {
