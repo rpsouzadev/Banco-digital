@@ -3,13 +3,15 @@ package com.rpsouza.bancodigital.data.repository.auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
+import com.rpsouza.bancodigital.data.model.User
+import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
-class AuthFirebaseDataSourceImpl(
-  private val firebaseDatabase: FirebaseDatabase,
+class AuthFirebaseDataSourceImpl @Inject constructor(
   private val firebaseAuth: FirebaseAuth
 ) : IAuthFirebaseDataSource {
   override suspend fun login(email: String, password: String) {
+
     return suspendCoroutine { continuation ->
       firebaseAuth.signInWithEmailAndPassword(email, password)
         .addOnCompleteListener { task ->
@@ -24,18 +26,13 @@ class AuthFirebaseDataSourceImpl(
     }
   }
 
-  override suspend fun register(
-    name: String, email: String, phone: String, password: String
-  ): FirebaseUser {
+  override suspend fun register(user: User): User {
+
     return suspendCoroutine { continuation ->
-      firebaseAuth.createUserWithEmailAndPassword(email, password)
+      firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
         .addOnCompleteListener { task ->
           if (task.isSuccessful) {
-            val user = task.result.user
-
-            user?.let {
-              continuation.resumeWith(Result.success(it))
-            }
+            continuation.resumeWith(Result.success(user))
           } else {
             task.exception?.let {
               continuation.resumeWith(Result.failure(it))
@@ -46,6 +43,7 @@ class AuthFirebaseDataSourceImpl(
   }
 
   override suspend fun recover(email: String) {
+
     return suspendCoroutine { continuation ->
       firebaseAuth.sendPasswordResetEmail(email)
         .addOnCompleteListener { task ->
