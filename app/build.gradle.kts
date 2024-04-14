@@ -57,6 +57,8 @@ dependencies {
 
   // Dagger hilt with KSP
   implementation("com.google.dagger:hilt-android:2.48.1")
+  implementation(libs.androidx.navigation.fragment.ktx)
+  implementation(libs.androidx.navigation.ui.ktx)
   ksp("com.google.dagger:hilt-android-compiler:2.48.1")
 
   // Tests
