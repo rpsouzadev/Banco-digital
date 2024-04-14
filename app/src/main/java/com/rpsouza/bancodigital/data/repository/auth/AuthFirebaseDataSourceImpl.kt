@@ -46,6 +46,17 @@ class AuthFirebaseDataSourceImpl(
   }
 
   override suspend fun recover(email: String) {
-    TODO("Not yet implemented")
+    return suspendCoroutine { continuation ->
+      firebaseAuth.sendPasswordResetEmail(email)
+        .addOnCompleteListener { task ->
+          if (task.isSuccessful) {
+            continuation.resumeWith(Result.success(Unit))
+          } else {
+            task.exception?.let {
+              continuation.resumeWith(Result.failure(it))
+            }
+          }
+        }
+    }
   }
 }
