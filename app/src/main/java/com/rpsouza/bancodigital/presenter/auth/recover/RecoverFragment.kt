@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.rpsouza.bancodigital.databinding.FragmentRecoverBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecoverFragment : Fragment() {
   private var _binding: FragmentRecoverBinding? = null
   private val binding get() = _binding!!
