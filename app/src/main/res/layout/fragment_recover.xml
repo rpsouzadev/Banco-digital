@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
     android:background="@color/white"
+    android:fillViewport="true"
     tools:context=".presenter.auth.recover.RecoverFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/text_title_toolbar_recover_fragment"/>
+                    android:text="@string/text_title_toolbar_recover_fragment" />
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -53,13 +53,13 @@
             style="@style/Theme.EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="16dp"
             android:drawableStart="@drawable/ic_email_24"
             android:hint="@string/text_label_email_recover_fragment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 
         <com.google.android.material.button.MaterialButton
@@ -81,12 +81,14 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="24dp"
             android:indeterminateTint="@color/color_default"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttomRecover"
-            app:layout_constraintVertical_bias="0.037" />
+            app:layout_constraintVertical_bias="0.037"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

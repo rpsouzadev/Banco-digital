@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.databinding.FragmentLoginBinding
 import com.rpsouza.bancodigital.databinding.FragmentSplashBinding
@@ -33,21 +34,18 @@ class LoginFragment : Fragment() {
   private fun initListeners() {
     binding.buttomLogin.setOnClickListener { validateData() }
 
-    binding.buttomRecoverLink.setOnClickListener {
-      Toast.makeText(
-        requireContext(),
-        "recuperar conta",
-        Toast.LENGTH_SHORT
-      ).show()
+    binding.buttomRegisterLink.setOnClickListener {
+      findNavController().navigate(
+        R.id.action_loginFragment_to_registerFragment
+      )
     }
 
-    binding.buttomRegisterLink.setOnClickListener {
-      Toast.makeText(
-        requireContext(),
-        "Registrar conta",
-        Toast.LENGTH_SHORT
-      ).show()
+    binding.buttomRecoverLink.setOnClickListener {
+      findNavController().navigate(
+        R.id.action_loginFragment_to_recoverFragment
+      )
     }
+
   }
 
   private fun validateData() {
