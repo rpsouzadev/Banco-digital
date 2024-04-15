@@ -6,7 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.databinding.FragmentRecoverBinding
+import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,6 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class RecoverFragment : Fragment() {
   private var _binding: FragmentRecoverBinding? = null
   private val binding get() = _binding!!
+
+  private val recoverViewModel: RecoverViewModel by viewModels()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -32,25 +39,51 @@ class RecoverFragment : Fragment() {
 
   private fun initListeners() {
     binding.buttomRecover.setOnClickListener { validateData() }
-
-
   }
 
   private fun validateData() {
     val email = binding.editEmailRecover.text.toString().trim()
 
     if (email.isNotEmpty()) {
-      Toast.makeText(
-        requireContext(),
-        "Recuperando...",
-        Toast.LENGTH_SHORT
-      ).show()
+      recoverUser(email)
     } else {
       Toast.makeText(
         requireContext(),
         "Preencha o email",
         Toast.LENGTH_SHORT
       ).show()
+    }
+  }
+
+  private fun recoverUser(email: String) {
+
+    recoverViewModel.recover(email).observe(viewLifecycleOwner) { stateView ->
+
+      when (stateView) {
+        is StateView.Loading -> {
+          binding.progressBar.isVisible = true
+        }
+
+        is StateView.Success -> {
+          binding.progressBar.isVisible = false
+
+          Toast.makeText(
+            requireContext(),
+            "Verifique seu email",
+            Toast.LENGTH_SHORT
+          ).show()
+        }
+
+        is StateView.Error -> {
+          binding.progressBar.isVisible = false
+
+          Toast.makeText(
+            requireContext(),
+            stateView.message,
+            Toast.LENGTH_SHORT
+          ).show()
+        }
+      }
     }
   }
 
