@@ -48,7 +48,9 @@
             tools:layout="@layout/fragment_recover" />
         <action
             android:id="@+id/action_global_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_auth"
+            app:popUpToInclusive="true"/>
     </navigation>
     <fragment
         android:id="@+id/homeFragment"

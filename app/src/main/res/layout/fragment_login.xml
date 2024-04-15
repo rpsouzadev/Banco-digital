@@ -26,7 +26,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/editPassword"
@@ -34,13 +35,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:inputType="textPassword"
             android:drawableStart="@drawable/ic_lock_24"
             android:hint="@string/text_hint_password_login_fragment"
             app:layout_constraintBottom_toTopOf="@+id/buttomLogin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editEmail" />
+            app:layout_constraintTop_toBottomOf="@+id/editEmail"
+            android:autofillHints="" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttomLogin"

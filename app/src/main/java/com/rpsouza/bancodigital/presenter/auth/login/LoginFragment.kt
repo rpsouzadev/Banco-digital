@@ -6,16 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
+import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentLoginBinding
 import com.rpsouza.bancodigital.databinding.FragmentSplashBinding
+import com.rpsouza.bancodigital.utils.StateView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
   private var _binding: FragmentLoginBinding? = null
   private val binding get() = _binding!!
+
+  private val loginViewModel: LoginViewModel by viewModels()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -54,13 +60,7 @@ class LoginFragment : Fragment() {
 
     if (email.isNotEmpty()) {
       if (password.isNotEmpty()) {
-
-        Toast.makeText(
-          requireContext(),
-          "Login...",
-          Toast.LENGTH_SHORT
-        ).show()
-
+        loginUser(email, password)
       } else {
         Toast.makeText(
           requireContext(),
@@ -74,6 +74,34 @@ class LoginFragment : Fragment() {
         "Preencha o email",
         Toast.LENGTH_SHORT
       ).show()
+    }
+  }
+
+  private fun loginUser(email: String, password: String) {
+
+    loginViewModel.login(email, password).observe(viewLifecycleOwner) { stateView ->
+
+      when (stateView) {
+        is StateView.Loading -> {
+          binding.progressBarLogin.isVisible = true
+        }
+
+        is StateView.Success -> {
+          binding.progressBarLogin.isVisible = false
+
+         findNavController().navigate(R.id.action_global_homeFragment)
+        }
+
+        is StateView.Error -> {
+          binding.progressBarLogin.isVisible = false
+
+          Toast.makeText(
+            requireContext(),
+            stateView.message,
+            Toast.LENGTH_SHORT
+          ).show()
+        }
+      }
     }
   }
 
