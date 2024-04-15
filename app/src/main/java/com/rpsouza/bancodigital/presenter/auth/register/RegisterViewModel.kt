@@ -1,5 +1,6 @@
 package com.rpsouza.bancodigital.presenter.auth.register
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.domain.auth.RegisterUseCase
@@ -10,7 +11,8 @@ import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(private val registerUseCase: RegisterUseCase) {
+class RegisterViewModel @Inject constructor(private val registerUseCase: RegisterUseCase) :
+  ViewModel() {
 
   fun register(user: User) = liveData(Dispatchers.IO) {
     try {

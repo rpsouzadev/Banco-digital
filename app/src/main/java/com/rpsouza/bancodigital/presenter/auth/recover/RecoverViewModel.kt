@@ -1,5 +1,6 @@
 package com.rpsouza.bancodigital.presenter.auth.recover
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.rpsouza.bancodigital.domain.auth.RecoverUseCase
 import com.rpsouza.bancodigital.utils.StateView
@@ -8,7 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 @HiltViewModel
-class RecoverViewModel @Inject constructor(private val recoverUseCase: RecoverUseCase) {
+class RecoverViewModel @Inject constructor(private val recoverUseCase: RecoverUseCase) :
+  ViewModel() {
 
   fun recover(email: String) = liveData(Dispatchers.IO) {
     try {

@@ -1,5 +1,6 @@
 package com.rpsouza.bancodigital.presenter.auth.login
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.rpsouza.bancodigital.domain.auth.LoginUseCase
 import com.rpsouza.bancodigital.utils.StateView
@@ -8,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) {
+class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
 
   fun login(email: String, password: String) = liveData(Dispatchers.IO) {
     try {

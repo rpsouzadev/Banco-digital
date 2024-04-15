@@ -6,14 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentRegisterBinding
+import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RegisterFragment : Fragment() {
+
   private var _binding: FragmentRegisterBinding? = null
   private val binding get() = _binding!!
+
+  private val registerViewModel: RegisterViewModel by viewModels()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -51,11 +58,9 @@ class RegisterFragment : Fragment() {
     ) {
 
       if (password == passwordConfirm) {
-        Toast.makeText(
-          requireContext(),
-          "Register...",
-          Toast.LENGTH_SHORT
-        ).show()
+        val user = User(name, email, phone, password)
+
+        registerUser(user)
       } else {
         Toast.makeText(
           requireContext(),
@@ -70,6 +75,38 @@ class RegisterFragment : Fragment() {
         "Preencha todos os campos",
         Toast.LENGTH_SHORT
       ).show()
+    }
+  }
+
+  private fun registerUser(user: User) {
+
+    registerViewModel.register(user).observe(viewLifecycleOwner) { stateView ->
+
+      when (stateView) {
+        is StateView.Loading -> {
+          binding.progressBar.isVisible = true
+        }
+
+        is StateView.Success -> {
+          binding.progressBar.isVisible = false
+
+          Toast.makeText(
+            requireContext(),
+            "Register...",
+            Toast.LENGTH_SHORT
+          ).show()
+        }
+
+        is StateView.Error -> {
+          binding.progressBar.isVisible = false
+
+          Toast.makeText(
+            requireContext(),
+            stateView.message,
+            Toast.LENGTH_SHORT
+          ).show()
+        }
+      }
     }
   }
 

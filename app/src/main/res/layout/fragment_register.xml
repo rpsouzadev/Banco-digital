@@ -50,7 +50,8 @@
                 android:layout_marginTop="16dp"
                 android:autofillHints=""
                 android:drawableStart="@drawable/ic_person_24"
-                android:hint="@string/text_label_name_register_fragment" />
+                android:hint="@string/text_label_name_register_fragment"
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/editEmailRegister"
@@ -58,8 +59,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:autofillHints=""
                 android:drawableStart="@drawable/ic_email_24"
-                android:hint="@string/text_label_email_register_fragment" />
+                android:hint="@string/text_label_email_register_fragment"
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/editPhoneRegister"
@@ -67,8 +70,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:autofillHints=""
                 android:drawableStart="@drawable/ic_phone_android_24"
-                android:hint="@string/text_label_phone_register_fragment" />
+                android:hint="@string/text_label_phone_register_fragment"
+                android:inputType="phone" />
 
             <EditText
                 android:id="@+id/editPasswordRegister"
@@ -76,8 +81,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:autofillHints=""
                 android:drawableStart="@drawable/ic_lock_24"
-                android:hint="@string/text_label_password_register_fragment" />
+                android:hint="@string/text_label_password_register_fragment"
+                android:inputType="textPassword" />
 
             <EditText
                 android:id="@+id/editPasswordConfirmRegister"
@@ -85,8 +92,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:autofillHints=""
                 android:drawableStart="@drawable/ic_lock_24"
-                android:hint="@string/text_label_confirm_password_register_fragment" />
+                android:hint="@string/text_label_confirm_password_register_fragment"
+                android:inputType="textPassword" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttomRegister"
