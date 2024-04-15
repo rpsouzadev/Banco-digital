@@ -51,17 +51,21 @@ dependencies {
   implementation(libs.androidx.constraintlayout)
 
   // Firebase
-  implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+  implementation(platform(libs.firebase.bom))
   implementation("com.google.firebase:firebase-auth")
   implementation("com.google.firebase:firebase-database")
 
   // Dagger hilt with KSP
-  implementation("com.google.dagger:hilt-android:2.48.1")
-  ksp("com.google.dagger:hilt-android-compiler:2.48.1")
+  implementation(libs.hilt.android)
+  ksp(libs.hilt.android.compiler)
 
-  // navigation
+  // Navigation
   implementation(libs.androidx.navigation.fragment.ktx)
   implementation(libs.androidx.navigation.ui.ktx)
+
+  // Lifecycle
+  implementation(libs.androidx.lifecycle.viewmodel.ktx)
+  implementation(libs.androidx.lifecycle.livedata.ktx)
 
   // Tests
   testImplementation(libs.junit)
