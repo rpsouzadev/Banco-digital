@@ -63,11 +63,11 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttomRecover"
+            android:id="@+id/buttonRecover"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
-            android:background="@drawable/bg_buttom"
+            android:background="@drawable/bg_button"
             android:text="@string/text_btn_recover_login_fragment"
             app:backgroundTint="@null"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +86,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttomRecover"
+            app:layout_constraintTop_toBottomOf="@+id/buttonRecover"
             app:layout_constraintVertical_bias="0.037"
             tools:visibility="visible" />
 

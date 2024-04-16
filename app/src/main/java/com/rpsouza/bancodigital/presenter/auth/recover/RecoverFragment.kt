@@ -13,6 +13,7 @@ import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.databinding.FragmentRecoverBinding
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
+import com.rpsouza.bancodigital.utils.showBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,7 +39,7 @@ class RecoverFragment : Fragment() {
   }
 
   private fun initListeners() {
-    binding.buttomRecover.setOnClickListener { validateData() }
+    binding.buttonRecover.setOnClickListener { validateData() }
   }
 
   private fun validateData() {
@@ -47,11 +48,7 @@ class RecoverFragment : Fragment() {
     if (email.isNotEmpty()) {
       recoverUser(email)
     } else {
-      Toast.makeText(
-        requireContext(),
-        "Preencha o email",
-        Toast.LENGTH_SHORT
-      ).show()
+      showBottomSheet(message = getString(R.string.text_email_empty))
     }
   }
 
@@ -67,11 +64,9 @@ class RecoverFragment : Fragment() {
         is StateView.Success -> {
           binding.progressBar.isVisible = false
 
-          Toast.makeText(
-            requireContext(),
-            "Verifique seu email",
-            Toast.LENGTH_SHORT
-          ).show()
+          showBottomSheet(
+            message = getString(R.string.text_message_send_email_sucess_recover_fragment)
+          )
         }
 
         is StateView.Error -> {

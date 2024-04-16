@@ -14,6 +14,7 @@ import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentLoginBinding
 import com.rpsouza.bancodigital.databinding.FragmentSplashBinding
 import com.rpsouza.bancodigital.utils.StateView
+import com.rpsouza.bancodigital.utils.showBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,15 +39,15 @@ class LoginFragment : Fragment() {
   }
 
   private fun initListeners() {
-    binding.buttomLogin.setOnClickListener { validateData() }
+    binding.buttonLogin.setOnClickListener { validateData() }
 
-    binding.buttomRegisterLink.setOnClickListener {
+    binding.buttonRegisterLink.setOnClickListener {
       findNavController().navigate(
         R.id.action_loginFragment_to_registerFragment
       )
     }
 
-    binding.buttomRecoverLink.setOnClickListener {
+    binding.buttonRecoverLink.setOnClickListener {
       findNavController().navigate(
         R.id.action_loginFragment_to_recoverFragment
       )
@@ -62,18 +63,10 @@ class LoginFragment : Fragment() {
       if (password.isNotEmpty()) {
         loginUser(email, password)
       } else {
-        Toast.makeText(
-          requireContext(),
-          "Preencha a senha",
-          Toast.LENGTH_SHORT
-        ).show()
+        showBottomSheet(message = getString(R.string.text_password_empty))
       }
     } else {
-      Toast.makeText(
-        requireContext(),
-        "Preencha o email",
-        Toast.LENGTH_SHORT
-      ).show()
+      showBottomSheet(message = getString(R.string.text_email_empty))
     }
   }
 
@@ -95,11 +88,7 @@ class LoginFragment : Fragment() {
         is StateView.Error -> {
           binding.progressBarLogin.isVisible = false
 
-          Toast.makeText(
-            requireContext(),
-            stateView.message,
-            Toast.LENGTH_SHORT
-          ).show()
+          showBottomSheet(message = stateView.message ?: getString(R.string.error_generic))
         }
       }
     }

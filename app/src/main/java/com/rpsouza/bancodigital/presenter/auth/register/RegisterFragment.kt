@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentRegisterBinding
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
+import com.rpsouza.bancodigital.utils.showBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,7 +41,7 @@ class RegisterFragment : Fragment() {
   }
 
   private fun initListeners() {
-    binding.buttomRegister.setOnClickListener { validateData() }
+    binding.buttonRegister.setOnClickListener { validateData() }
 
   }
 
@@ -62,19 +65,11 @@ class RegisterFragment : Fragment() {
 
         registerUser(user)
       } else {
-        Toast.makeText(
-          requireContext(),
-          "Senha não confere...",
-          Toast.LENGTH_SHORT
-        ).show()
+        showBottomSheet(message = getString(R.string.text_bottom_sheet_confirm_password))
       }
 
     } else {
-      Toast.makeText(
-        requireContext(),
-        "Preencha todos os campos",
-        Toast.LENGTH_SHORT
-      ).show()
+      showBottomSheet(message = getString(R.string.text_fields_empty))
     }
   }
 
@@ -90,21 +85,13 @@ class RegisterFragment : Fragment() {
         is StateView.Success -> {
           binding.progressBar.isVisible = false
 
-          Toast.makeText(
-            requireContext(),
-            "Register...",
-            Toast.LENGTH_SHORT
-          ).show()
+          findNavController().navigate(R.id.action_global_homeFragment)
         }
 
         is StateView.Error -> {
           binding.progressBar.isVisible = false
 
-          Toast.makeText(
-            requireContext(),
-            stateView.message,
-            Toast.LENGTH_SHORT
-          ).show()
+          showBottomSheet(message = stateView.message ?: getString(R.string.error_generic))
         }
       }
     }

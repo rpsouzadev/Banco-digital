@@ -98,11 +98,11 @@
                 android:inputType="textPassword" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttomRegister"
+                android:id="@+id/buttonRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/bg_buttom"
+                android:background="@drawable/bg_button"
                 android:text="@string/text_btn_register_fragment"
                 app:backgroundTint="@null" />
 
