@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentRegisterBinding
+import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
 import com.rpsouza.bancodigital.utils.showBottomSheet
@@ -90,8 +91,9 @@ class RegisterFragment : Fragment() {
 
         is StateView.Error -> {
           binding.progressBar.isVisible = false
+          val message = FirebaseHelper.validError(stateView.message.toString())
 
-          showBottomSheet(message = stateView.message ?: getString(R.string.error_generic))
+          showBottomSheet(message = getString(message))
         }
       }
     }

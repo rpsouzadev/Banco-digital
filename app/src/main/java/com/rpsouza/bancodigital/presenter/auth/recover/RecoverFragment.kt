@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.databinding.FragmentRecoverBinding
+import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
 import com.rpsouza.bancodigital.utils.showBottomSheet
@@ -71,12 +72,9 @@ class RecoverFragment : Fragment() {
 
         is StateView.Error -> {
           binding.progressBar.isVisible = false
+          val message = FirebaseHelper.validError(stateView.message.toString())
 
-          Toast.makeText(
-            requireContext(),
-            stateView.message,
-            Toast.LENGTH_SHORT
-          ).show()
+          showBottomSheet(message = getString(message))
         }
       }
     }

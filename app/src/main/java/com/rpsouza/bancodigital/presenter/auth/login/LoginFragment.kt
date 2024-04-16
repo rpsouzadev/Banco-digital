@@ -13,6 +13,7 @@ import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentLoginBinding
 import com.rpsouza.bancodigital.databinding.FragmentSplashBinding
+import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.showBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
@@ -87,8 +88,9 @@ class LoginFragment : Fragment() {
 
         is StateView.Error -> {
           binding.progressBarLogin.isVisible = false
+          val message = FirebaseHelper.validError(stateView.message.toString())
 
-          showBottomSheet(message = stateView.message ?: getString(R.string.error_generic))
+          showBottomSheet(message = getString(message))
         }
       }
     }
