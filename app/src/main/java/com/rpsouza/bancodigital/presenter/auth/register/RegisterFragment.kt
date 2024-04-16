@@ -49,24 +49,28 @@ class RegisterFragment : Fragment() {
   private fun validateData() {
     val name = binding.editNameRegister.text.toString().trim()
     val email = binding.editEmailRegister.text.toString().trim()
-    val phone = binding.editPhoneRegister.text.toString().trim()
+    val phone = binding.editPhoneRegister.unMaskedText
     val password = binding.editPasswordRegister.text.toString().trim()
     val passwordConfirm = binding.editPasswordConfirmRegister.text.toString().trim()
 
     if (
       name.isNotEmpty() &&
       email.isNotEmpty() &&
-      phone.isNotEmpty() &&
+      phone?.isNotEmpty() == true &&
       password.isNotEmpty() &&
       passwordConfirm.isNotEmpty()
     ) {
 
-      if (password == passwordConfirm) {
-        val user = User(name, email, phone, password)
+      if (phone.length == 11) {
+        if (password == passwordConfirm) {
+          val user = User(name, email, phone, password)
 
-        registerUser(user)
+          registerUser(user)
+        } else {
+          showBottomSheet(message = getString(R.string.text_bottom_sheet_confirm_password))
+        }
       } else {
-        showBottomSheet(message = getString(R.string.text_bottom_sheet_confirm_password))
+        showBottomSheet(message = getString(R.string.text_phone_invalid))
       }
 
     } else {

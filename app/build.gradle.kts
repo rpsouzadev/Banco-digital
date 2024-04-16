@@ -67,6 +67,9 @@ dependencies {
   implementation(libs.androidx.lifecycle.viewmodel.ktx)
   implementation(libs.androidx.lifecycle.livedata.ktx)
 
+  // Mask to editText https://github.com/VicMikhailau/MaskedEditText
+  implementation("io.github.vicmikhailau:MaskedEditText:5.0.1")
+
   // Tests
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
