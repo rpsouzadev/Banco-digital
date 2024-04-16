@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentRegisterBinding
+import com.rpsouza.bancodigital.presenter.profile.ProfileViewModel
 import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
@@ -25,6 +26,7 @@ class RegisterFragment : Fragment() {
   private val binding get() = _binding!!
 
   private val registerViewModel: RegisterViewModel by viewModels()
+  private val profileViewModel: ProfileViewModel by viewModels()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -63,9 +65,7 @@ class RegisterFragment : Fragment() {
 
       if (phone.length == 11) {
         if (password == passwordConfirm) {
-          val user = User(name, email, phone, password)
-
-          registerUser(user)
+          registerUser(name, phone, email, password)
         } else {
           showBottomSheet(message = getString(R.string.text_bottom_sheet_confirm_password))
         }
@@ -78,13 +78,42 @@ class RegisterFragment : Fragment() {
     }
   }
 
-  private fun registerUser(user: User) {
+  private fun registerUser(
+    name: String,
+    phone: String,
+    email: String,
+    password: String
+  ) {
 
-    registerViewModel.register(user).observe(viewLifecycleOwner) { stateView ->
+    registerViewModel.register(name, phone, email, password)
+      .observe(viewLifecycleOwner) { stateView ->
+
+        when (stateView) {
+          is StateView.Loading -> {
+            binding.progressBar.isVisible = true
+          }
+
+          is StateView.Success -> {
+            stateView.data?.let { saveProfile(it) }
+          }
+
+          is StateView.Error -> {
+            binding.progressBar.isVisible = false
+            val message = FirebaseHelper.validError(stateView.message.toString())
+
+            showBottomSheet(message = getString(message))
+          }
+        }
+      }
+  }
+
+  private fun saveProfile(user: User) {
+
+    profileViewModel.saveProfile(user).observe(viewLifecycleOwner) { stateView ->
 
       when (stateView) {
         is StateView.Loading -> {
-          binding.progressBar.isVisible = true
+
         }
 
         is StateView.Success -> {

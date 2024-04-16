@@ -7,7 +7,12 @@ import javax.inject.Inject
 class RegisterUseCase @Inject constructor(
   private val authFirebaseDataSourceImpl: AuthFirebaseDataSourceImpl
 ) {
-  suspend operator fun invoke(user: User): User {
-    return authFirebaseDataSourceImpl.register(user)
+  suspend operator fun invoke(
+    name: String,
+    phone: String,
+    email: String,
+    password: String
+  ): User {
+    return authFirebaseDataSourceImpl.register(name, phone, email, password)
   }
 }
