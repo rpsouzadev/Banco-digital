@@ -61,10 +61,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:text="Últimas 6 atividades"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_balance"
-                android:text="Últimas 6 atividades" />
+                app:layout_constraintTop_toBottomOf="@+id/text_balance" />
 
             <TextView
                 android:id="@+id/btn_show_all"

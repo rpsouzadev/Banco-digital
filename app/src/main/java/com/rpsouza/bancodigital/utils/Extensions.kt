@@ -26,7 +26,7 @@ fun Fragment.initToolbar(toolbar: Toolbar, homeAsUpEnabled: Boolean = true) {
 fun Fragment.showBottomSheet(
   titleDialog: Int? = null,
   titleButton: Int? = null,
-  message: String,
+  message: String?,
   onClick: () -> Unit = {}
 ) {
 
@@ -37,7 +37,7 @@ fun Fragment.showBottomSheet(
   bottomSheetBinding.textTitleBottomSheet.text =
     getString(titleDialog ?: R.string.text_title_bottom_sheet)
 
-  bottomSheetBinding.textMessageBottomSheet.text = message
+  bottomSheetBinding.textMessageBottomSheet.text = message ?: getText(R.string.error_generic)
 
   bottomSheetBinding.buttonBottomSheet.text =
     getString(titleButton ?: R.string.text_button_bottom_sheet)
