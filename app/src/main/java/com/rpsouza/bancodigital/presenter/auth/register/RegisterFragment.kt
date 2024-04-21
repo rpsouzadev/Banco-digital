@@ -11,8 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.model.User
+import com.rpsouza.bancodigital.data.model.Wallet
 import com.rpsouza.bancodigital.databinding.FragmentRegisterBinding
 import com.rpsouza.bancodigital.presenter.profile.ProfileViewModel
+import com.rpsouza.bancodigital.presenter.wallet.WalletViewModel
 import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
@@ -27,6 +29,7 @@ class RegisterFragment : Fragment() {
 
   private val registerViewModel: RegisterViewModel by viewModels()
   private val profileViewModel: ProfileViewModel by viewModels()
+  private val walletViewModel: WalletViewModel by viewModels()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -78,12 +81,7 @@ class RegisterFragment : Fragment() {
     }
   }
 
-  private fun registerUser(
-    name: String,
-    phone: String,
-    email: String,
-    password: String
-  ) {
+  private fun registerUser(name: String, phone: String, email: String, password: String) {
 
     registerViewModel.register(name, phone, email, password)
       .observe(viewLifecycleOwner) { stateView ->
@@ -110,6 +108,33 @@ class RegisterFragment : Fragment() {
   private fun saveProfile(user: User) {
 
     profileViewModel.saveProfile(user).observe(viewLifecycleOwner) { stateView ->
+
+      when (stateView) {
+        is StateView.Loading -> {
+
+        }
+
+        is StateView.Success -> {
+          iniWallet()
+        }
+
+        is StateView.Error -> {
+          binding.progressBar.isVisible = false
+          val message = FirebaseHelper.validError(stateView.message.toString())
+
+          showBottomSheet(message = getString(message))
+        }
+      }
+    }
+  }
+
+  private fun iniWallet() {
+
+    walletViewModel.initWallet(
+      Wallet(
+        userId = FirebaseHelper.getUserId()
+      )
+    ).observe(viewLifecycleOwner) { stateView ->
 
       when (stateView) {
         is StateView.Loading -> {

@@ -6,9 +6,9 @@ import com.rpsouza.bancodigital.utils.FirebaseHelper
 import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
-class ProfileRepositoryImpl @Inject constructor(
+class ProfileDataSourceImpl @Inject constructor(
   database: FirebaseDatabase
-) : IProfileRepository {
+) : IProfileDataSource {
 
   private val profileReference = database.reference
     .child("profile")
