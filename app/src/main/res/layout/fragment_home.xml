@@ -114,6 +114,7 @@
             android:paddingBottom="8dp">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_deposit"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_margin="8dp">
