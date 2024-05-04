@@ -4,7 +4,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 data class Deposit(
   var id: String = "",
-  var data: Long = 0,
+  var date: Long = 0,
   var amount: Float = 0f,
 ) {
   init {

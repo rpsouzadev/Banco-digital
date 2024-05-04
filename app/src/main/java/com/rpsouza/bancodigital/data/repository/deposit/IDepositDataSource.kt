@@ -4,5 +4,5 @@ import com.rpsouza.bancodigital.data.model.Deposit
 
 interface IDepositDataSource {
 
-  suspend fun saveDeposit(deposit: Deposit): String
+  suspend fun saveDeposit(deposit: Deposit): Deposit
 }

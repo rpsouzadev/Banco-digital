@@ -18,9 +18,9 @@ class DepositViewModel @Inject constructor(
     try {
       emit(StateView.Loading())
 
-      val idDeposit = saveDepositUseCase.invoke(deposit)
+      val result = saveDepositUseCase.invoke(deposit)
 
-      emit(StateView.Success(idDeposit))
+      emit(StateView.Success(result))
 
     } catch (e: Exception) {
       emit(StateView.Error(e.message))
