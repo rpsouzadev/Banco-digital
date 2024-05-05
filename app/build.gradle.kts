@@ -5,6 +5,10 @@ plugins {
   // Firebase
   id("com.google.gms.google-services")
 
+  // Parcelize
+  id("kotlin-parcelize")
+  id("androidx.navigation.safeargs.kotlin")
+
   // Dagger hilt with KSP
   id("com.google.dagger.hilt.android")
   id("com.google.devtools.ksp")

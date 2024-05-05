@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.data.enum.TransactionOperation
 import com.rpsouza.bancodigital.data.enum.TransactionType
 import com.rpsouza.bancodigital.data.model.Deposit
@@ -63,15 +64,7 @@ class DepositFormFragment : Fragment() {
         }
 
         is StateView.Success -> {
-          val data = stateView.data
-          val transaction = Transaction(
-            id = data?.id ?: "",
-            date = data?.date ?: 0,
-            amount = data?.amount ?: 0f,
-            type = TransactionType.CASH_IN,
-            operation = TransactionOperation.DEPOSIT,
-          )
-          saveTransaction(transaction)
+          stateView.data?.let { saveTransaction(it) }
         }
 
         is StateView.Error -> {
@@ -82,14 +75,26 @@ class DepositFormFragment : Fragment() {
     }
   }
 
-  private fun saveTransaction(transaction: Transaction) {
+  private fun saveTransaction(deposit: Deposit) {
+    val transaction = Transaction(
+      id = deposit.id,
+      date = deposit.date,
+      amount = deposit.amount,
+      type = TransactionType.CASH_IN,
+      operation = TransactionOperation.DEPOSIT,
+    )
+
+
     depositViewModel.saveTransaction(transaction).observe(viewLifecycleOwner) { stateView ->
       when (stateView) {
         is StateView.Loading -> {
         }
 
         is StateView.Success -> {
-          Toast.makeText(requireContext(), "Sucesso", Toast.LENGTH_SHORT).show()
+          val action = DepositFormFragmentDirections
+            .actionDepositFormFragmentToDepositReceiptFragment(deposit)
+
+          findNavController().navigate(action)
         }
 
         is StateView.Error -> {
