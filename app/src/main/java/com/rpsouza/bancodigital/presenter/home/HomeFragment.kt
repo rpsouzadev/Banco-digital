@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
+import com.rpsouza.bancodigital.data.enum.TransactionType
+import com.rpsouza.bancodigital.data.model.Transaction
 import com.rpsouza.bancodigital.data.model.Wallet
 import com.rpsouza.bancodigital.databinding.FragmentHomeBinding
 import com.rpsouza.bancodigital.utils.GetMask
@@ -34,7 +36,7 @@ class HomeFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
-    getWallet()
+    getTransactions()
     initListeners()
   }
 
@@ -53,7 +55,6 @@ class HomeFragment : Fragment() {
 
         is StateView.Success -> {
           stateView.data?.let {
-            showBalance(it)
           }
         }
 
@@ -64,9 +65,40 @@ class HomeFragment : Fragment() {
     }
   }
 
-  private fun showBalance(wallet: Wallet) {
+  private fun getTransactions() {
+    homeViewModel.getTransactions().observe(viewLifecycleOwner) { stateView ->
+      when (stateView) {
+        is StateView.Loading -> {
+
+        }
+
+        is StateView.Success -> {
+          showBalance(stateView.data ?: emptyList())
+        }
+
+        is StateView.Error -> {
+          showBottomSheet(message = stateView.message)
+        }
+      }
+    }
+  }
+
+  private fun showBalance(transactions: List<Transaction>) {
+    var cashIn = 0f
+    var cashOut = 0f
+
+    transactions.forEach { transaction ->
+      if (transaction.type == TransactionType.CASH_IN) {
+        cashIn += transaction.amount
+      } else {
+        cashOut += transaction.amount
+      }
+    }
+
+    val wallet = cashIn - cashOut
+
     binding.textBalance.text =
-      getString(R.string.text_formated_value, GetMask.getFormatedValue(wallet.balance))
+      getString(R.string.text_formated_value, GetMask.getFormatedValue(wallet))
   }
 
   override fun onDestroy() {

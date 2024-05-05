@@ -5,4 +5,6 @@ import com.rpsouza.bancodigital.data.model.Transaction
 interface ITransactionDataSource {
 
   suspend fun saveTransaction(transaction: Transaction)
+
+  suspend fun getTransaction(): List<Transaction>
 }
