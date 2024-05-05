@@ -5,12 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.enum.TransactionType
 import com.rpsouza.bancodigital.data.model.Transaction
-import com.rpsouza.bancodigital.data.model.Wallet
 import com.rpsouza.bancodigital.databinding.FragmentHomeBinding
 import com.rpsouza.bancodigital.utils.GetMask
 import com.rpsouza.bancodigital.utils.StateView
@@ -24,6 +24,7 @@ class HomeFragment : Fragment() {
   private val binding get() = _binding!!
 
   private val homeViewModel: HomeViewModel by viewModels()
+  private lateinit var adapterTransaction: TransactionAdapter
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +37,7 @@ class HomeFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    configRecyclerView()
     getTransactions()
     initListeners()
   }
@@ -46,22 +48,11 @@ class HomeFragment : Fragment() {
     }
   }
 
-  private fun getWallet() {
-    homeViewModel.getWallet().observe(viewLifecycleOwner) { stateView ->
-      when (stateView) {
-        is StateView.Loading -> {
-
-        }
-
-        is StateView.Success -> {
-          stateView.data?.let {
-          }
-        }
-
-        is StateView.Error -> {
-          showBottomSheet(message = stateView.message)
-        }
-      }
+  private fun configRecyclerView() {
+    adapterTransaction = TransactionAdapter(requireContext()) { transaction -> }
+    with(binding.rvTransactions) {
+      setHasFixedSize(true)
+      adapter = adapterTransaction
     }
   }
 
@@ -69,14 +60,19 @@ class HomeFragment : Fragment() {
     homeViewModel.getTransactions().observe(viewLifecycleOwner) { stateView ->
       when (stateView) {
         is StateView.Loading -> {
-
+          binding.progressBar.isVisible = true
         }
 
         is StateView.Success -> {
+          binding.progressBar.isVisible = false
+
+          adapterTransaction.submitList(stateView.data?.reversed())
+
           showBalance(stateView.data ?: emptyList())
         }
 
         is StateView.Error -> {
+          binding.progressBar.isVisible = false
           showBottomSheet(message = stateView.message)
         }
       }
