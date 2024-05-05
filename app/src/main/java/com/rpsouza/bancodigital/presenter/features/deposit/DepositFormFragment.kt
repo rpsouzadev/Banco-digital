@@ -8,7 +8,10 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.rpsouza.bancodigital.data.enum.TransactionOperation
+import com.rpsouza.bancodigital.data.enum.TransactionType
 import com.rpsouza.bancodigital.data.model.Deposit
+import com.rpsouza.bancodigital.data.model.Transaction
 import com.rpsouza.bancodigital.databinding.FragmentDepositFormBinding
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
@@ -57,6 +60,32 @@ class DepositFormFragment : Fragment() {
       when (stateView) {
         is StateView.Loading -> {
           binding.progressBar.isVisible = true
+        }
+
+        is StateView.Success -> {
+          val data = stateView.data
+          val transaction = Transaction(
+            id = data?.id ?: "",
+            date = data?.date ?: 0,
+            amount = data?.amount ?: 0f,
+            type = TransactionType.CASH_IN,
+            operation = TransactionOperation.DEPOSIT,
+          )
+          saveTransaction(transaction)
+        }
+
+        is StateView.Error -> {
+          binding.progressBar.isVisible = false
+          showBottomSheet(message = stateView.message)
+        }
+      }
+    }
+  }
+
+  private fun saveTransaction(transaction: Transaction) {
+    depositViewModel.saveTransaction(transaction).observe(viewLifecycleOwner) { stateView ->
+      when (stateView) {
+        is StateView.Loading -> {
         }
 
         is StateView.Success -> {
