@@ -8,7 +8,7 @@
     <string name="text_phone_invalid">Digite um telefone válido</string>
     <string name="text_password_empty">Digite sua senha</string>
     <string name="text_fields_empty">Preencha todos os campos</string>
-    <string name="error_generic">Ocorreu um erro, por favor tente novamente mais tarde.</string>
+    <string name="error_generic">Houve um erro, por favor tente novamente mais tarde.</string>
     <string name="text_formated_value">R$ %1$s</string>
 
     <!--    BottomSheet-->
