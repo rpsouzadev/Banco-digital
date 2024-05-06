@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.rpsouza.bancodigital.data.model.Deposit
 import com.rpsouza.bancodigital.databinding.FragmentDepositReceiptBinding
 import com.rpsouza.bancodigital.utils.GetMask
 import com.rpsouza.bancodigital.utils.StateView
+import com.rpsouza.bancodigital.utils.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,11 +37,13 @@ class DepositReceiptFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    initToolbar(toolbar = binding.toolbar, homeAsUpEnabled = args.homeAsUpEnabled)
     getDeposit()
     initListeners()
   }
 
   private fun initListeners() {
+    binding.btnContinue.isVisible = !args.homeAsUpEnabled
     binding.btnContinue.setOnClickListener { findNavController().popBackStack() }
   }
 

@@ -9,6 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
+import com.rpsouza.bancodigital.data.enum.TransactionOperation
 import com.rpsouza.bancodigital.data.enum.TransactionType
 import com.rpsouza.bancodigital.data.model.Transaction
 import com.rpsouza.bancodigital.databinding.FragmentHomeBinding
@@ -49,7 +50,18 @@ class HomeFragment : Fragment() {
   }
 
   private fun configRecyclerView() {
-    adapterTransaction = TransactionAdapter(requireContext()) { transaction -> }
+    adapterTransaction = TransactionAdapter(requireContext()) { transaction ->
+      when (transaction.operation) {
+        TransactionOperation.DEPOSIT -> {
+          val action = HomeFragmentDirections
+            .actionHomeFragmentToDepositReceiptFragment(transaction.id, true)
+
+          findNavController().navigate(action)
+        } else -> {
+
+        }
+      }
+    }
     with(binding.rvTransactions) {
       setHasFixedSize(true)
       adapter = adapterTransaction

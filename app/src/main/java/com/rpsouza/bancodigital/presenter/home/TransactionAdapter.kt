@@ -74,5 +74,4 @@ class TransactionAdapter(
 
   inner class ViewHolder(val binding: TransactionItemBinding) :
     RecyclerView.ViewHolder(binding.root)
-
 }
