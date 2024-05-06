@@ -77,9 +77,11 @@
                 android:layout_marginTop="16dp"
                 android:autofillHints=""
                 android:drawableStart="@drawable/ic_email_24"
+                android:drawableTint="@color/color_text_hint"
                 android:enabled="false"
                 android:hint="@string/text_label_email_profile_fragment"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/color_text_hint" />
 
             <com.vicmikhailau.maskededittext.MaskedEditText
                 android:id="@+id/editPhoneProfile"

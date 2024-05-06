@@ -61,6 +61,10 @@ class HomeFragment : Fragment() {
     binding.btnShowAll.setOnClickListener {
       findNavController().navigate(R.id.action_homeFragment_to_extractFragment)
     }
+
+    binding.cardProfile.setOnClickListener {
+      findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+    }
   }
 
   private fun configRecyclerView() {
