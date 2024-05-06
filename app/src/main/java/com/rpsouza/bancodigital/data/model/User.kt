@@ -1,8 +1,8 @@
 package com.rpsouza.bancodigital.data.model
 
 data class User(
-  val id: String = "",
-  val name: String = "",
+  var id: String = "",
+  var name: String = "",
   val email: String = "",
-  val phone: String = "",
+  var phone: String = "",
 )

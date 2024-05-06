@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.rpsouza.bancodigital.R
@@ -37,13 +38,18 @@ class ProfileFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
 
     initToolbar(binding.toolbar)
+    initListeners()
     getProfile()
   }
 
+  private fun initListeners() {
+    binding.buttonSaveProfile.setOnClickListener {
+      if (user != null) validateData()
+    }
+  }
+
   private fun getProfile() {
-
     profileViewModel.getProfile().observe(viewLifecycleOwner) { stateView ->
-
       when (stateView) {
         is StateView.Loading -> {
           binding.progressBar.isVisible = true
@@ -61,6 +67,58 @@ class ProfileFragment : Fragment() {
           showBottomSheet(message = getString(message))
         }
       }
+    }
+  }
+
+  private fun saveProfile() {
+    user?.let {
+      profileViewModel.saveProfile(it).observe(viewLifecycleOwner) { stateView ->
+        when (stateView) {
+          is StateView.Loading -> {
+            binding.progressBar.isVisible = true
+          }
+
+          is StateView.Success -> {
+            binding.progressBar.isVisible = false
+            Toast.makeText(
+              requireContext(),
+              R.string.text_message_save_success_profile_fragment,
+              Toast.LENGTH_SHORT
+            ).show()
+          }
+
+          is StateView.Error -> {
+            binding.progressBar.isVisible = false
+            val message = FirebaseHelper.validError(stateView.message.toString())
+            showBottomSheet(message = getString(message))
+          }
+        }
+      }
+    }
+  }
+
+  private fun validateData() {
+    val name = binding.editNameProfile.text.toString().trim()
+    val phone = binding.editPhoneProfile.unMaskedText
+
+    if (
+      name.isNotEmpty() &&
+      phone?.isNotEmpty() == true
+    ) {
+
+      if (phone.length == 11) {
+        user?.let {
+          it.name = name
+          it.phone = phone
+        }
+
+        saveProfile()
+      } else {
+        showBottomSheet(message = getString(R.string.text_phone_invalid))
+      }
+
+    } else {
+      showBottomSheet(message = getString(R.string.text_fields_empty))
     }
   }
 
