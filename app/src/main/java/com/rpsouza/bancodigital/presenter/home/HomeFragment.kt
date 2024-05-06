@@ -13,6 +13,7 @@ import com.rpsouza.bancodigital.data.enum.TransactionOperation
 import com.rpsouza.bancodigital.data.enum.TransactionType
 import com.rpsouza.bancodigital.data.model.Transaction
 import com.rpsouza.bancodigital.databinding.FragmentHomeBinding
+import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.GetMask
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.showBottomSheet
@@ -44,6 +45,11 @@ class HomeFragment : Fragment() {
   }
 
   private fun initListeners() {
+    binding.btnLogout.setOnClickListener {
+      FirebaseHelper.getAuth().signOut()
+      findNavController().navigate(R.id.action_homeFragment_to_nav_auth)
+    }
+
     binding.cardDeposit.setOnClickListener {
       findNavController().navigate(R.id.action_homeFragment_to_depositFormFragment)
     }
@@ -65,7 +71,9 @@ class HomeFragment : Fragment() {
             .actionHomeFragmentToDepositReceiptFragment(transaction.id, true)
 
           findNavController().navigate(action)
-        } else -> {
+        }
+
+        else -> {
 
         }
       }
