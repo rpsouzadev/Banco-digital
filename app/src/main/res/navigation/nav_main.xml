@@ -77,6 +77,9 @@
         <action
             android:id="@+id/action_homeFragment_to_rechargeFormFragment"
             app:destination="@id/rechargeFormFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_rechargeReceiptFragment"
+            app:destination="@id/rechargeReceiptFragment" />
     </fragment>
     <fragment
         android:id="@+id/depositFormFragment"
@@ -112,6 +115,9 @@
         <action
             android:id="@+id/action_extractFragment_to_depositReceiptFragment"
             app:destination="@id/depositReceiptFragment" />
+        <action
+            android:id="@+id/action_extractFragment_to_rechargeReceiptFragment"
+            app:destination="@id/rechargeReceiptFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

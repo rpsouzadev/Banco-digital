@@ -97,10 +97,10 @@ class RechargeFormFragment : BaseFragment() {
         }
 
         is StateView.Success -> {
-//          val action = RechargeFormFragmentDirections
-//            .actionRechargeFormFragmentToRechargeReceiptFragment(recharge.id)
-//
-//          findNavController().navigate(action)
+          val action = RechargeFormFragmentDirections
+            .actionRechargeFormFragmentToRechargeReceiptFragment(recharge.id)
+
+          findNavController().navigate(action)
         }
 
         is StateView.Error -> {
