@@ -4,6 +4,8 @@ import com.rpsouza.bancodigital.data.repository.auth.AuthFirebaseDataSourceImpl
 import com.rpsouza.bancodigital.data.repository.auth.IAuthFirebaseDataSource
 import com.rpsouza.bancodigital.data.repository.deposit.DepositDataSourceImpl
 import com.rpsouza.bancodigital.data.repository.deposit.IDepositDataSource
+import com.rpsouza.bancodigital.data.repository.recharge.IRechargeDataSource
+import com.rpsouza.bancodigital.data.repository.recharge.RechargeDataSourceImpl
 import com.rpsouza.bancodigital.data.repository.transaction.ITransactionDataSource
 import com.rpsouza.bancodigital.data.repository.transaction.TransactionDataSourceImpl
 import dagger.Binds
@@ -29,4 +31,9 @@ abstract class DomainModule {
   abstract fun bindsTransactionDataSource(
     transactionDataSourceImpl: TransactionDataSourceImpl
   ): ITransactionDataSource
+
+  @Binds
+  abstract fun bindsRechargeDataSource(
+    rechargeDataSourceImpl: RechargeDataSourceImpl
+  ): IRechargeDataSource
 }
