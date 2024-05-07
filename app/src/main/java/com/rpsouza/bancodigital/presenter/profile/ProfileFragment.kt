@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentProfileBinding
+import com.rpsouza.bancodigital.utils.BaseFragment
 import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
@@ -18,7 +19,7 @@ import com.rpsouza.bancodigital.utils.showBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment() {
+class ProfileFragment : BaseFragment() {
   private var _binding: FragmentProfileBinding? = null
   private val binding get() = _binding!!
 
@@ -112,6 +113,7 @@ class ProfileFragment : Fragment() {
           it.phone = phone
         }
 
+        hideKeyboard()
         saveProfile()
       } else {
         showBottomSheet(message = getString(R.string.text_phone_invalid))

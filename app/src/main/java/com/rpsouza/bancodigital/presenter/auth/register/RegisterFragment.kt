@@ -15,6 +15,7 @@ import com.rpsouza.bancodigital.data.model.Wallet
 import com.rpsouza.bancodigital.databinding.FragmentRegisterBinding
 import com.rpsouza.bancodigital.presenter.profile.ProfileViewModel
 import com.rpsouza.bancodigital.presenter.wallet.WalletViewModel
+import com.rpsouza.bancodigital.utils.BaseFragment
 import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
@@ -22,7 +23,7 @@ import com.rpsouza.bancodigital.utils.showBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RegisterFragment : Fragment() {
+class RegisterFragment : BaseFragment() {
 
   private var _binding: FragmentRegisterBinding? = null
   private val binding get() = _binding!!
@@ -69,6 +70,7 @@ class RegisterFragment : Fragment() {
       if (phone.length == 11) {
         if (password == passwordConfirm) {
           registerUser(name, phone, email, password)
+          hideKeyboard()
         } else {
           showBottomSheet(message = getString(R.string.text_bottom_sheet_confirm_password))
         }

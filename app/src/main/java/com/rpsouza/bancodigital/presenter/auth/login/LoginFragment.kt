@@ -1,25 +1,22 @@
 package com.rpsouza.bancodigital.presenter.auth.login
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
-import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentLoginBinding
-import com.rpsouza.bancodigital.databinding.FragmentSplashBinding
+import com.rpsouza.bancodigital.utils.BaseFragment
 import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.showBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
   private var _binding: FragmentLoginBinding? = null
   private val binding get() = _binding!!
 
@@ -63,6 +60,7 @@ class LoginFragment : Fragment() {
     if (email.isNotEmpty()) {
       if (password.isNotEmpty()) {
         loginUser(email, password)
+        hideKeyboard()
       } else {
         showBottomSheet(message = getString(R.string.text_password_empty))
       }
