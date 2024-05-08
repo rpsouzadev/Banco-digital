@@ -77,6 +77,9 @@ dependencies {
   // https://github.com/cheonjaeung/shapedimageview
   implementation(libs.shapedimageview)
 
+  // https://github.com/square/picasso
+  implementation(libs.picasso)
+
   // Tests
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)

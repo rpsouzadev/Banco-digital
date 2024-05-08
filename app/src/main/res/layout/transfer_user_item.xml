@@ -12,11 +12,13 @@
         android:layout_height="60dp"
         app:border_color="@color/white"
         app:border_size="2dp"
+        tools:src="@drawable/spider_men"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/text_username"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
