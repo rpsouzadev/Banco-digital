@@ -15,12 +15,11 @@ class ProfileDataSourceImpl @Inject constructor(
 
   private val profileReference = database.reference
     .child("profile")
-    .child(FirebaseHelper.getUserId())
 
   override suspend fun saveProfile(user: User) {
     return suspendCoroutine { continuation ->
-      profileReference.setValue(user)
-        .addOnCompleteListener { task ->
+      profileReference.child(FirebaseHelper.getUserId())
+        .setValue(user).addOnCompleteListener { task ->
           if (task.isSuccessful) {
             continuation.resumeWith(Result.success(Unit))
           } else {
@@ -34,19 +33,45 @@ class ProfileDataSourceImpl @Inject constructor(
 
   override suspend fun getProfile(): User {
     return suspendCoroutine { continuation ->
+      profileReference.child(FirebaseHelper.getUserId())
+        .addListenerForSingleValueEvent(
+          object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+              val profile = snapshot.getValue(User::class.java)
+
+              profile?.let { continuation.resumeWith(Result.success(it)) }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+              continuation.resumeWith(Result.failure(error.toException()))
+            }
+
+          })
+    }
+  }
+
+  override suspend fun getProfileList(): List<User> {
+    return suspendCoroutine { continuation ->
       profileReference.addListenerForSingleValueEvent(
         object : ValueEventListener {
           override fun onDataChange(snapshot: DataSnapshot) {
-            val profile = snapshot.getValue(User::class.java)
+            val profileList = mutableListOf<User>()
 
-            profile?.let { continuation.resumeWith(Result.success(it)) }
+            for (ds in snapshot.children) {
+              val profile = ds.getValue(User::class.java)
+
+              profile?.let { profileList.add(it) }
+            }
+
+            continuation.resumeWith(Result.success(profileList))
           }
 
           override fun onCancelled(error: DatabaseError) {
             continuation.resumeWith(Result.failure(error.toException()))
           }
 
-        })
+        }
+      )
     }
   }
 }
