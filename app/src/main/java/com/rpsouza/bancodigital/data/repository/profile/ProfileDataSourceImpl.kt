@@ -63,7 +63,11 @@ class ProfileDataSourceImpl @Inject constructor(
               profile?.let { profileList.add(it) }
             }
 
-            continuation.resumeWith(Result.success(profileList))
+            continuation.resumeWith(Result.success(
+              profileList.apply {
+                removeIf { it.id == FirebaseHelper.getUserId() }
+              }
+            ))
           }
 
           override fun onCancelled(error: DatabaseError) {

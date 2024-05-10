@@ -64,6 +64,8 @@ class TransferUserAdapter(
         .load(user.image)
         .centerCrop()
         .into(holder.binding.userImage)
+    } else {
+      holder.binding.userImage.setImageResource(R.drawable.img_profile_default)
     }
   }
 

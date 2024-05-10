@@ -6,22 +6,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentTransferUserListBinding
+import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
+import com.rpsouza.bancodigital.utils.showBottomSheet
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TransferUserListFragment : Fragment() {
   private var _binding: FragmentTransferUserListBinding? = null
   private val binding get() = _binding!!
 
   private lateinit var adapterTransferUser: TransferUserAdapter
+  private val transferUserListViewModel: TransferUserListViewModel by viewModels()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
-     _binding = FragmentTransferUserListBinding.inflate(inflater, container, false)
+    _binding = FragmentTransferUserListBinding.inflate(inflater, container, false)
     return binding.root
   }
 
@@ -30,13 +39,35 @@ class TransferUserListFragment : Fragment() {
 
     initToolbar(binding.toolbar, light = true)
     initRecyclerView()
+    getProfileList()
+  }
+
+  private fun getProfileList() {
+    transferUserListViewModel.getProfileList().observe(viewLifecycleOwner) { stateView ->
+      when (stateView) {
+        is StateView.Loading -> {
+          binding.progressBar.isVisible = true
+        }
+
+        is StateView.Success -> {
+          binding.progressBar.isVisible = false
+
+          stateView.data?.let { adapterTransferUser.submitList(it) }
+        }
+
+        is StateView.Error -> {
+          binding.progressBar.isVisible = false
+          showBottomSheet(message = stateView.message)
+        }
+      }
+    }
   }
 
   private fun initRecyclerView() {
     adapterTransferUser = TransferUserAdapter { userSelected ->
       Toast.makeText(requireContext(), userSelected.name, Toast.LENGTH_SHORT).show()
     }
-    
+
     with(binding.rvUsers) {
       setHasFixedSize(true)
       adapter = adapterTransferUser
