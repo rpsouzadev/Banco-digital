@@ -1,4 +1,4 @@
-package com.rpsouza.bancodigital.domain.transaction
+package com.rpsouza.bancodigital.presenter.features.transfer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData

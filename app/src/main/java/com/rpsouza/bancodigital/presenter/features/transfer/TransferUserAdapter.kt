@@ -19,7 +19,6 @@ import com.rpsouza.bancodigital.utils.GetMask
 import com.squareup.picasso.Picasso
 
 class TransferUserAdapter(
-  private val context: Context,
   private val userSelected: (User) -> Unit
 ) : ListAdapter<User, TransferUserAdapter.ViewHolder>(DIFF_CALLBACK) {
 
