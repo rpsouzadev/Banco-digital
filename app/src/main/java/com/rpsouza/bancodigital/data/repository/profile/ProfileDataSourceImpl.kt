@@ -1,24 +1,33 @@
 package com.rpsouza.bancodigital.data.repository.profile
 
+import android.net.Uri
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.utils.FirebaseHelper
 import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
 class ProfileDataSourceImpl @Inject constructor(
-  database: FirebaseDatabase
+  database: FirebaseDatabase,
+  storage: FirebaseStorage
 ) : IProfileDataSource {
 
-  private val profileReference = database.reference
+  private val profileDatabaseReference = database.reference
     .child("profile")
+
+  private val profileStorageReference = storage.reference
+    .child("images")
+    .child("profiles")
+    .child("${FirebaseHelper.getUserId()}.jpeg")
 
   override suspend fun saveProfile(user: User) {
     return suspendCoroutine { continuation ->
-      profileReference.child(FirebaseHelper.getUserId())
+      profileDatabaseReference.child(FirebaseHelper.getUserId())
         .setValue(user).addOnCompleteListener { task ->
           if (task.isSuccessful) {
             continuation.resumeWith(Result.success(Unit))
@@ -33,7 +42,7 @@ class ProfileDataSourceImpl @Inject constructor(
 
   override suspend fun getProfile(): User {
     return suspendCoroutine { continuation ->
-      profileReference.child(FirebaseHelper.getUserId())
+      profileDatabaseReference.child(FirebaseHelper.getUserId())
         .addListenerForSingleValueEvent(
           object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -52,7 +61,7 @@ class ProfileDataSourceImpl @Inject constructor(
 
   override suspend fun getProfileList(): List<User> {
     return suspendCoroutine { continuation ->
-      profileReference.addListenerForSingleValueEvent(
+      profileDatabaseReference.addListenerForSingleValueEvent(
         object : ValueEventListener {
           override fun onDataChange(snapshot: DataSnapshot) {
             val profileList = mutableListOf<User>()
@@ -76,6 +85,21 @@ class ProfileDataSourceImpl @Inject constructor(
 
         }
       )
+    }
+  }
+
+  override suspend fun saveImage(imageProfile: String): String {
+    return suspendCoroutine { continuation ->
+      val uploadTask = profileStorageReference.putFile(Uri.parse(imageProfile))
+      uploadTask.addOnSuccessListener {
+
+        profileStorageReference.downloadUrl.addOnCompleteListener { task ->
+          continuation.resumeWith(Result.success(task.result.toString()))
+        }
+
+      }.addOnFailureListener {
+        continuation.resumeWith(Result.failure(it))
+      }
     }
   }
 }

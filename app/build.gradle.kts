@@ -58,6 +58,7 @@ dependencies {
   implementation(platform(libs.firebase.bom))
   implementation("com.google.firebase:firebase-auth")
   implementation("com.google.firebase:firebase-database")
+  implementation("com.google.firebase:firebase-storage")
 
   // Dagger hilt with KSP
   implementation(libs.hilt.android)
