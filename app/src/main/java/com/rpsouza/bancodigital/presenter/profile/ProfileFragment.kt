@@ -1,11 +1,19 @@
 package com.rpsouza.bancodigital.presenter.profile
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.gun0912.tedpermission.PermissionListener
@@ -29,6 +37,9 @@ class ProfileFragment : BaseFragment() {
   private val profileViewModel: ProfileViewModel by viewModels()
   private var user: User? = null
 
+  private var imageProfile: String? = null
+  private var currentPhotoPath: String? = null
+
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
@@ -44,6 +55,7 @@ class ProfileFragment : BaseFragment() {
     initToolbar(binding.toolbar)
     initListeners()
     getProfile()
+    checkPermissionGallery()
   }
 
   private fun initListeners() {
@@ -53,7 +65,7 @@ class ProfileFragment : BaseFragment() {
   }
 
   private fun checkPermissionCamera() {
-    val permissionListener: PermissionListener = object : PermissionListener() {
+    val permissionListener: PermissionListener = object : PermissionListener {
       override fun onPermissionGranted() {
         Toast.makeText(requireContext(), "Permissão aceita", Toast.LENGTH_SHORT).show()
       }
@@ -71,9 +83,9 @@ class ProfileFragment : BaseFragment() {
   }
 
   private fun checkPermissionGallery() {
-    val permissionListener: PermissionListener = object : PermissionListener() {
+    val permissionListener: PermissionListener = object : PermissionListener {
       override fun onPermissionGranted() {
-        Toast.makeText(requireContext(), "Permissão aceita", Toast.LENGTH_SHORT).show()
+        openGallery()
       }
 
       override fun onPermissionDenied(deniedPermissions: List<String?>) {
@@ -83,9 +95,44 @@ class ProfileFragment : BaseFragment() {
 
     showDialogPermissionDenied(
       permissionListener = permissionListener,
-      permission = Manifest.permission.READ_EXTERNAL_STORAGE,
+      permission = Manifest.permission.READ_MEDIA_IMAGES,
       message = R.string.text_message_gallery_denied_profile_fragment
     )
+  }
+
+  private fun openGallery() {
+    val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+    galleryLauncher.launch(intent)
+  }
+
+  private val galleryLauncher = registerForActivityResult(
+    ActivityResultContracts.StartActivityForResult()
+  ) { activityResult ->
+    if (activityResult.resultCode == Activity.RESULT_OK) {
+      val imageSelected = activityResult.data!!.data
+      imageProfile = imageSelected.toString()
+
+      if (imageSelected != null) {
+        binding.imageUser.setImageBitmap(getBitmap(imageSelected))
+      }
+    }
+  }
+
+  private fun getBitmap(pathUri: Uri): Bitmap? {
+    var bitmap: Bitmap? = null
+
+    try {
+      bitmap = if (Build.VERSION.SDK_INT < 28) {
+        MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, pathUri)
+      } else {
+        val source = ImageDecoder.createSource(requireActivity().contentResolver, pathUri)
+        ImageDecoder.decodeBitmap(source)
+      }
+    } catch (ex: Exception) {
+      ex.printStackTrace()
+    }
+
+    return bitmap
   }
 
   private fun showDialogPermissionDenied(
