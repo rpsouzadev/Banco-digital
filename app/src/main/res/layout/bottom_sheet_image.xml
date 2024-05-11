@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/textTitleBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/text_title_bottom_sheet_profile"
+        android:textColor="@color/color_default"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="16dp"
+        android:background="?actionBarDivider" />
+
+    <TextView
+        android:id="@+id/textMessageBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/text_message_bottom_sheet_profile" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <ImageButton
+            android:id="@+id/buttonCamera"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/text_button_camera_bottom_sheet_profile"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_camera"
+            app:layout_constraintEnd_toStartOf="@id/buttonGallery"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/color_default" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_button_camera_bottom_sheet_profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/buttonCamera"
+            app:layout_constraintStart_toStartOf="@+id/buttonCamera"
+            app:layout_constraintTop_toBottomOf="@+id/buttonCamera" />
+
+        <ImageButton
+            android:id="@+id/buttonGallery"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/text_button_gallery_bottom_sheet_profile"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_gallery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/buttonCamera"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/color_default" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_button_gallery_bottom_sheet_profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/buttonGallery"
+            app:layout_constraintStart_toStartOf="@+id/buttonGallery"
+            app:layout_constraintTop_toBottomOf="@+id/buttonGallery" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

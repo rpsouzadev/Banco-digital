@@ -13,8 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textColor="@color/color_default"
         android:text="@string/text_title_bottom_sheet"
+        android:textColor="@color/color_default"
+        android:textSize="16sp"
+        android:textStyle="bold"
         tools:text="Title" />
 
     <View
@@ -36,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_button"
-        tools:text="@string/text_button_bottom_sheet"
-        app:backgroundTint="@null" />
+        app:backgroundTint="@null"
+        tools:text="@string/text_button_bottom_sheet" />
 
 </LinearLayout>

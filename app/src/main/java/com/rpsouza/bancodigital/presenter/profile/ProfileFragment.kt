@@ -17,12 +17,16 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.model.User
+import com.rpsouza.bancodigital.databinding.BottomSheetImageBinding
 import com.rpsouza.bancodigital.databinding.FragmentProfileBinding
+import com.rpsouza.bancodigital.databinding.LayoutBottomSheetBinding
 import com.rpsouza.bancodigital.utils.BaseFragment
 import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.StateView
@@ -62,13 +66,33 @@ class ProfileFragment : BaseFragment() {
     initToolbar(binding.toolbar)
     initListeners()
     getProfile()
-    checkPermissionCamera()
   }
 
   private fun initListeners() {
+    binding.imageUser.setOnClickListener { showBottomSheetImage() }
+
     binding.buttonSaveProfile.setOnClickListener {
       if (user != null) validateData()
     }
+  }
+
+  private fun showBottomSheetImage() {
+    val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
+    val bottomSheetBinding: BottomSheetImageBinding =
+      BottomSheetImageBinding.inflate(layoutInflater, null, false)
+
+    bottomSheetBinding.buttonCamera.setOnClickListener {
+      checkPermissionCamera()
+      bottomSheetDialog.dismiss()
+    }
+
+    bottomSheetBinding.buttonGallery.setOnClickListener {
+      checkPermissionGallery()
+      bottomSheetDialog.dismiss()
+    }
+
+    bottomSheetDialog.setContentView(bottomSheetBinding.root)
+    bottomSheetDialog.show()
   }
 
   private fun checkPermissionCamera() {
