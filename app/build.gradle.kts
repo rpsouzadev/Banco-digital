@@ -80,6 +80,9 @@ dependencies {
   // https://github.com/square/picasso
   implementation(libs.picasso)
 
+  // https://github.com/ParkSangGwon/TedPermission
+  implementation(libs.tedpermission.normal)
+
   // Tests
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
