@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -93,6 +94,26 @@ class ProfileFragment : BaseFragment() {
 
     bottomSheetDialog.setContentView(bottomSheetBinding.root)
     bottomSheetDialog.show()
+  }
+
+  private fun saveImageProfile() {
+    imageProfile?.let {
+      profileViewModel.saveImageProfile(it).observe(viewLifecycleOwner) { stateView ->
+        when (stateView) {
+          is StateView.Loading -> {
+            binding.progressBar.isVisible = true
+          }
+          is StateView.Success -> {
+            binding.progressBar.isVisible = false
+          }
+          is StateView.Error -> {
+            binding.progressBar.isVisible = false
+
+            showBottomSheet(message = stateView.message)
+          }
+        }
+      }
+    }
   }
 
   private fun checkPermissionCamera() {
