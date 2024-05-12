@@ -42,22 +42,15 @@
             android:paddingHorizontal="24dp"
             android:paddingVertical="16dp">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/materialCardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
+            <io.woong.shapedimageview.CircleImageView
+                android:id="@+id/user_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:border_color="@color/white"
+                app:border_size="2dp"
                 android:layout_gravity="center_horizontal"
-                app:cardCornerRadius="50dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/image_user"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:scaleType="centerCrop" />
-
-            </com.google.android.material.card.MaterialCardView>
+                tools:src="@drawable/spider_men" />
 
             <EditText
                 android:id="@+id/editNameProfile"

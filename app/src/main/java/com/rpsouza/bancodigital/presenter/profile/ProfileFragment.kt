@@ -33,6 +33,7 @@ import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
 import com.rpsouza.bancodigital.utils.showBottomSheet
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.io.IOException
@@ -70,10 +71,16 @@ class ProfileFragment : BaseFragment() {
   }
 
   private fun initListeners() {
-    binding.imageUser.setOnClickListener { showBottomSheetImage() }
+    binding.userImage.setOnClickListener { showBottomSheetImage() }
 
     binding.buttonSaveProfile.setOnClickListener {
-      if (user != null) validateData()
+      if (user != null) {
+        if (imageProfile != null) {
+          saveImageProfile()
+        } else {
+          validateData()
+        }
+      }
     }
   }
 
@@ -103,9 +110,12 @@ class ProfileFragment : BaseFragment() {
           is StateView.Loading -> {
             binding.progressBar.isVisible = true
           }
+
           is StateView.Success -> {
             binding.progressBar.isVisible = false
+            saveProfile(stateView.data)
           }
+
           is StateView.Error -> {
             binding.progressBar.isVisible = false
 
@@ -196,7 +206,7 @@ class ProfileFragment : BaseFragment() {
   ) { activityResult ->
     if (activityResult.resultCode == Activity.RESULT_OK) {
       val file = File(currentPhotoPath!!)
-      binding.imageUser.setImageURI(Uri.fromFile(file))
+      binding.userImage.setImageURI(Uri.fromFile(file))
 
       imageProfile = file.toURI().toString()
     }
@@ -215,7 +225,7 @@ class ProfileFragment : BaseFragment() {
       imageProfile = imageSelected.toString()
 
       if (imageSelected != null) {
-        binding.imageUser.setImageBitmap(getBitmap(imageSelected))
+        binding.userImage.setImageBitmap(getBitmap(imageSelected))
       }
     }
   }
@@ -274,8 +284,13 @@ class ProfileFragment : BaseFragment() {
     }
   }
 
-  private fun saveProfile() {
+  private fun saveProfile(urlImage: String? = null) {
     user?.let {
+
+      if (urlImage != null) {
+        it.image = urlImage
+      }
+
       profileViewModel.saveProfile(it).observe(viewLifecycleOwner) { stateView ->
         when (stateView) {
           is StateView.Loading -> {
@@ -328,6 +343,13 @@ class ProfileFragment : BaseFragment() {
   }
 
   private fun configData() {
+    user?.image?.let {
+      Picasso.get()
+        .load(it)
+        .fit().centerCrop()
+        .into(binding.userImage)
+    }
+
     binding.editNameProfile.setText(user?.name)
     binding.editEmailProfile.setText(user?.email)
     binding.editPhoneProfile.setText(user?.phone)
