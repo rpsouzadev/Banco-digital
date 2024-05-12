@@ -3,6 +3,8 @@ package com.rpsouza.bancodigital.presenter.features.transfer
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -32,6 +34,11 @@ class TransferUserListFragment : Fragment() {
   ): View {
     _binding = FragmentTransferUserListBinding.inflate(inflater, container, false)
     return binding.root
+  }
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setHasOptionsMenu(true)
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,6 +79,13 @@ class TransferUserListFragment : Fragment() {
       setHasFixedSize(true)
       adapter = adapterTransferUser
     }
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+    inflater.inflate(R.menu.menu_search, menu)
+    val item = menu.findItem(R.id.action_search)
+    binding.searchView.setMenuItem(item)
+    super.onCreateOptionsMenu(menu, inflater)
   }
 
   override fun onDestroy() {

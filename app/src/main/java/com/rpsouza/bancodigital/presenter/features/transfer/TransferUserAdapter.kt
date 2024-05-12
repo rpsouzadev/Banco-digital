@@ -62,7 +62,7 @@ class TransferUserAdapter(
     if (user.image.isNotEmpty()) {
       Picasso.get()
         .load(user.image)
-        .centerCrop()
+        .fit().centerCrop()
         .into(holder.binding.userImage)
     } else {
       holder.binding.userImage.setImageResource(R.drawable.img_profile_default)
