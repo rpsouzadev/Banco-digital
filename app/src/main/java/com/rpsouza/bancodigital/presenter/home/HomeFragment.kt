@@ -12,11 +12,13 @@ import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.enum.TransactionOperation
 import com.rpsouza.bancodigital.data.enum.TransactionType
 import com.rpsouza.bancodigital.data.model.Transaction
+import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentHomeBinding
 import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.GetMask
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.showBottomSheet
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,6 +41,7 @@ class HomeFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    getProfile()
     configRecyclerView()
     getTransactions()
     initListeners()
@@ -101,6 +104,33 @@ class HomeFragment : Fragment() {
       setHasFixedSize(true)
       adapter = adapterTransaction
     }
+  }
+
+  private fun getProfile() {
+    homeViewModel.getProfile().observe(viewLifecycleOwner) { stateView ->
+      when (stateView) {
+        is StateView.Loading -> {
+        }
+
+        is StateView.Success -> {
+          binding.progressBar.isVisible = false
+          stateView.data?.let { configData(it) }
+        }
+
+        is StateView.Error -> {
+          val message = FirebaseHelper.validError(stateView.message.toString())
+          showBottomSheet(message = getString(message))
+        }
+      }
+    }
+  }
+
+  private fun configData(user: User) {
+    Picasso.get()
+      .load(user.image)
+      .fit().centerCrop()
+      .into(binding.userImage)
+
   }
 
   private fun getTransactions() {
