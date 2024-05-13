@@ -1,7 +1,7 @@
 package com.rpsouza.bancodigital.presenter.features.transfer
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -9,9 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
+import com.ferfalk.simplesearchview.SimpleSearchView
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.model.User
 import com.rpsouza.bancodigital.databinding.FragmentTransferUserListBinding
@@ -20,6 +20,7 @@ import com.rpsouza.bancodigital.utils.initToolbar
 import com.rpsouza.bancodigital.utils.showBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class TransferUserListFragment : Fragment() {
   private var _binding: FragmentTransferUserListBinding? = null
@@ -27,6 +28,8 @@ class TransferUserListFragment : Fragment() {
 
   private lateinit var adapterTransferUser: TransferUserAdapter
   private val transferUserListViewModel: TransferUserListViewModel by viewModels()
+
+  private var profileList: List<User> = listOf()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +50,47 @@ class TransferUserListFragment : Fragment() {
     initToolbar(binding.toolbar, light = true)
     initRecyclerView()
     getProfileList()
+    configSearchView()
+  }
+
+  private fun configSearchView() {
+    binding.searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
+      override fun onQueryTextSubmit(query: String): Boolean {
+        return false
+      }
+
+      override fun onQueryTextChange(newText: String): Boolean {
+        return if (newText.isNotEmpty()) {
+          val newList = profileList.filter { user ->
+            user.name.contains(newText, true)
+          }
+          adapterTransferUser.submitList(newList)
+          true
+        } else {
+          adapterTransferUser.submitList(profileList)
+          false
+        }
+      }
+
+      override fun onQueryTextCleared(): Boolean {
+        return false
+      }
+    })
+
+    binding.searchView.setOnSearchViewListener(object : SimpleSearchView.SearchViewListener {
+      override fun onSearchViewShown() {
+      }
+
+      override fun onSearchViewClosed() {
+        adapterTransferUser.submitList(profileList)
+      }
+
+      override fun onSearchViewShownAnimation() {
+      }
+
+      override fun onSearchViewClosedAnimation() {
+      }
+    })
   }
 
   private fun getProfileList() {
@@ -58,8 +102,8 @@ class TransferUserListFragment : Fragment() {
 
         is StateView.Success -> {
           binding.progressBar.isVisible = false
-
-          stateView.data?.let { adapterTransferUser.submitList(it) }
+          profileList = stateView.data ?: emptyList()
+          adapterTransferUser.submitList(profileList)
         }
 
         is StateView.Error -> {
