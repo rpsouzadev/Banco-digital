@@ -15,6 +15,7 @@ import com.rpsouza.bancodigital.data.model.Deposit
 import com.rpsouza.bancodigital.data.model.Transaction
 import com.rpsouza.bancodigital.databinding.FragmentDepositFormBinding
 import com.rpsouza.bancodigital.utils.BaseFragment
+import com.rpsouza.bancodigital.utils.MoneyTextWatcher
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
 import com.rpsouza.bancodigital.utils.showBottomSheet
@@ -42,6 +43,10 @@ class DepositFormFragment : BaseFragment() {
   }
 
   private fun initListeners() {
+    with(binding.editAmount) {
+      addTextChangedListener(MoneyTextWatcher(this))
+    }
+
     binding.btnContinue.setOnClickListener { validateDeposit() }
   }
 
