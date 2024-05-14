@@ -120,7 +120,7 @@
     <!--    ConfirmTransferFragment-->
     <string name="text_title_toolbar_confirm_transfer_fragment">Transferência</string>
     <string name="text_message_confirm_transfer_fragment">Verifique os dados antes de confirmar a transferência.</string>
-    <string name="text_message_not_reversed_confirm_transfer_fragment">Após confirmar a transferência não \nserá possível desfazê-la</string>
+    <string name="text_message_not_reversed_confirm_transfer_fragment">Após confirmar a transferência \nnão será possível desfazê-la</string>
     <string name="text_message_recipient_confirm_transfer_fragment">Receberá a transferência</string>
     <string name="text_label_amount_confirm_transfer_fragment">Valor transferência</string>
     <string name="text_button_confirm_transfer_fragment">Confirmar</string>

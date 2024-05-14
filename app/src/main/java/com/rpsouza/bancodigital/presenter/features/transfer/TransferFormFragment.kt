@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.databinding.FragmentTransferFormBinding
 import com.rpsouza.bancodigital.utils.BaseFragment
@@ -20,6 +22,7 @@ class TransferFormFragment : BaseFragment() {
   private var _binding: FragmentTransferFormBinding? = null
   private val binding get() = _binding!!
 
+  private val args: TransferFormFragmentArgs by navArgs()
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -60,11 +63,16 @@ class TransferFormFragment : BaseFragment() {
 
     if (amount > 0f) {
       hideKeyboard()
+
+      val action = TransferFormFragmentDirections
+        .actionTransferFormFragmentToConfirmTransferFragment(user = args.user, amount = amount)
+
+      findNavController().navigate(action)
+
     } else {
       showBottomSheet(message = getString(R.string.text_message_empty_amount_transfer_form_fragment))
     }
   }
-
 
   override fun onDestroy() {
     super.onDestroy()
