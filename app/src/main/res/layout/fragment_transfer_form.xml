@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.Dark"
-    tools:context=".presenter.features.deposit.DepositFormFragment">
+    tools:context=".presenter.features.transfer.TransferFormFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Deposito"
+                    android:text="@string/text_title_toolbar_transfer_form_fragment"
                     android:textColor="@color/white" />
             </androidx.appcompat.widget.Toolbar>
 
@@ -54,7 +54,7 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="32dp"
                 android:textColor="@color/white"
-                android:text="Informe o valor de depósito"
+                android:text="@string/text_sub_title_transfer_form_fragment"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
