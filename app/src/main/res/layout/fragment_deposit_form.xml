@@ -53,11 +53,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="32dp"
-                android:text="@string/text_sub_title_deposit_receipt_fragment"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:text="Informe o valor de depósito"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
 

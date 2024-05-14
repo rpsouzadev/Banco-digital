@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:theme="@style/Theme.Dark"
     tools:context=".presenter.features.recharge.RechargeFormFragment">
 
 
@@ -58,9 +59,11 @@
             android:layout_margin="16dp"
             android:backgroundTint="@color/white"
             android:inputType="numberDecimal"
+            android:text="R$ 0,00"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="30sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />

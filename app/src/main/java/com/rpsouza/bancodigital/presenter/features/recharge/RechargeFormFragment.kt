@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
@@ -14,6 +16,7 @@ import com.rpsouza.bancodigital.data.model.Recharge
 import com.rpsouza.bancodigital.data.model.Transaction
 import com.rpsouza.bancodigital.databinding.FragmentRechargeFormBinding
 import com.rpsouza.bancodigital.utils.BaseFragment
+import com.rpsouza.bancodigital.utils.MoneyTextWatcher
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
 import com.rpsouza.bancodigital.utils.showBottomSheet
@@ -42,14 +45,30 @@ class RechargeFormFragment : BaseFragment() {
   }
 
   private fun initListeners() {
+    with(binding.editAmount) {
+      addTextChangedListener(MoneyTextWatcher(this))
+
+      addTextChangedListener {
+        if (MoneyTextWatcher.getValueUnMasked(this) > 300f) {
+          this.setText("R$ 0,00")
+        }
+      }
+
+      doAfterTextChanged {
+        this.text.length.let {
+          this.setSelection(it)
+        }
+      }
+    }
+
     binding.btnConfirm.setOnClickListener { validateData() }
   }
 
   private fun validateData() {
-    val amount = binding.editAmount.text.toString().trim()
+    val amount = MoneyTextWatcher.getValueUnMasked(binding.editAmount)
     val phone = binding.editPhoneNumber.unMaskedText
 
-    if (amount.isNotEmpty()) {
+    if (amount >= 10f) {
       if (phone?.length == 11) {
         val recharge = Recharge(amount = amount.toFloat(), phoneNumber = phone)
         hideKeyboard()

@@ -49,12 +49,12 @@ class DepositFormFragment : BaseFragment() {
       addTextChangedListener(MoneyTextWatcher(this))
 
       addTextChangedListener {
-        if(MoneyTextWatcher.getValueUnMasked(this) > 99999.99F) {
+        if (MoneyTextWatcher.getValueUnMasked(this) > 99999.99f) {
           this.setText("R$ 0,00")
         }
       }
 
-      doAfterTextChanged { editable ->
+      doAfterTextChanged {
         this.text.length.let {
           this.setSelection(it)
         }
@@ -65,14 +65,14 @@ class DepositFormFragment : BaseFragment() {
   }
 
   private fun validateDeposit() {
-    val amount = binding.editAmount.text.toString().trim()
+    val amount = MoneyTextWatcher.getValueUnMasked(binding.editAmount)
 
-    if (amount.isNotEmpty()) {
-      val deposit = Deposit(amount = amount.toFloat())
+    if (amount > 0f) {
+      val deposit = Deposit(amount = amount)
       hideKeyboard()
       saveDeposit(deposit)
     } else {
-      Toast.makeText(requireContext(), "Digite um valor", Toast.LENGTH_SHORT).show()
+      Toast.makeText(requireContext(), "Digite um valor maior que 0,00", Toast.LENGTH_SHORT).show()
     }
   }
 
