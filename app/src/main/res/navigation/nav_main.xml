@@ -149,7 +149,7 @@
     </fragment>
     <fragment
         android:id="@+id/transferUserListFragment"
-        android:name="com.rpsouza.bancodigital.presenter.features.transfer.TransferUserListFragment"
+        android:name="com.rpsouza.bancodigital.presenter.features.transfer.transferUserList.TransferUserListFragment"
         android:label="fragment_transfer_user_list"
         tools:layout="@layout/fragment_transfer_user_list" >
         <action
@@ -170,7 +170,7 @@
     </fragment>
     <fragment
         android:id="@+id/confirmTransferFragment"
-        android:name="com.rpsouza.bancodigital.presenter.features.transfer.ConfirmTransferFragment"
+        android:name="com.rpsouza.bancodigital.presenter.features.transfer.transferConfirm.ConfirmTransferFragment"
         android:label="fragment_confirm_transfer"
         tools:layout="@layout/fragment_confirm_transfer" >
         <argument

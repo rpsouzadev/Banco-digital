@@ -1,21 +1,13 @@
-package com.rpsouza.bancodigital.presenter.features.transfer
+package com.rpsouza.bancodigital.presenter.features.transfer.transferUserList
 
-import android.content.Context
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.rpsouza.bancodigital.R
-import com.rpsouza.bancodigital.data.enum.TransactionOperation
-import com.rpsouza.bancodigital.data.enum.TransactionType
-import com.rpsouza.bancodigital.data.model.Transaction
 import com.rpsouza.bancodigital.data.model.User
-import com.rpsouza.bancodigital.databinding.TransactionItemBinding
 import com.rpsouza.bancodigital.databinding.TransferUserItemBinding
-import com.rpsouza.bancodigital.utils.GetMask
 import com.squareup.picasso.Picasso
 
 class TransferUserAdapter(

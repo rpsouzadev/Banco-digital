@@ -126,10 +126,14 @@ class HomeFragment : Fragment() {
   }
 
   private fun configData(user: User) {
-    Picasso.get()
-      .load(user.image)
-      .fit().centerCrop()
-      .into(binding.userImage)
+    if (user.image.isNotEmpty()) {
+      Picasso.get()
+        .load(user.image)
+        .fit().centerCrop()
+        .into(binding.userImage)
+    } else {
+      binding.userImage.setImageResource(R.drawable.img_profile_default)
+    }
 
   }
 

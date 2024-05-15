@@ -1,0 +1,99 @@
+package com.rpsouza.bancodigital.presenter.features.transfer.transferConfirm
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
+import com.rpsouza.bancodigital.R
+import com.rpsouza.bancodigital.databinding.FragmentConfirmTransferBinding
+import com.rpsouza.bancodigital.utils.FirebaseHelper
+import com.rpsouza.bancodigital.utils.GetMask
+import com.rpsouza.bancodigital.utils.StateView
+import com.rpsouza.bancodigital.utils.initToolbar
+import com.rpsouza.bancodigital.utils.showBottomSheet
+import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class ConfirmTransferFragment : Fragment() {
+  private var _binding: FragmentConfirmTransferBinding? = null
+  private val binding get() = _binding!!
+
+  private val args: ConfirmTransferFragmentArgs by navArgs()
+  private val confirmTransferViewModel: ConfirmTransferViewModel by viewModels()
+
+  private var userBalance: Float = 0f
+
+  override fun onCreateView(
+    inflater: LayoutInflater, container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View {
+    _binding = FragmentConfirmTransferBinding.inflate(inflater, container, false)
+    return binding.root
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    initToolbar(binding.toolbar)
+    configData()
+    getBalance()
+    initListeners()
+  }
+
+  private fun initListeners() {
+    binding.btnConfirm.setOnClickListener {
+      if (userBalance >= args.amount) {
+      } else {
+        showBottomSheet(message = getString(R.string.text_message_insufficient_balance_confirm_transfer_fragment))
+      }
+    }
+  }
+
+  private fun getBalance() {
+    confirmTransferViewModel.getBalance().observe(viewLifecycleOwner) { stateView ->
+      when (stateView) {
+        is StateView.Loading -> {
+        }
+
+        is StateView.Success -> {
+          stateView.data?.let { balance ->
+            userBalance = balance
+          }
+        }
+
+        is StateView.Error -> {
+          val message = FirebaseHelper.validError(stateView.message.toString())
+          showBottomSheet(message = getString(message))
+        }
+      }
+    }
+  }
+
+  private fun configData() {
+    if (args.user.image.isNotEmpty()) {
+      Picasso.get()
+        .load(args.user.image)
+        .fit().centerCrop()
+        .into(binding.userImage)
+    } else {
+      binding.userImage.setImageResource(R.drawable.img_profile_default)
+    }
+
+    binding.textUsername.text = args.user.name
+    binding.textAmount.text = getString(
+      R.string.text_formated_value,
+      GetMask.getFormatedValue(args.amount)
+    )
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    _binding = null
+  }
+}
