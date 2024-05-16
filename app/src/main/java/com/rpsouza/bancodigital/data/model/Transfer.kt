@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Transfer(
   var id: String = "",
-  var date: Long = 0,
+  var date: Long = System.currentTimeMillis(),
   var amount: Float = 0f,
   val idUserSent: String = "",
   var idUserReceived: String = "",
