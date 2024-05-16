@@ -15,7 +15,7 @@ import com.rpsouza.bancodigital.utils.initToolbar
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
-@@AndroidEntryPoint
+@AndroidEntryPoint
 class TransferReceiptFragment : Fragment() {
   private var _binding: FragmentTransferReceiptBinding? = null
   private val binding get() = _binding!!
@@ -33,7 +33,6 @@ class TransferReceiptFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     initToolbar(binding.toolbar, homeAsUpEnabled = false)
-    configData()
     initListeners()
   }
 

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.rpsouza.bancodigital.R
+import com.rpsouza.bancodigital.data.model.Transfer
 import com.rpsouza.bancodigital.databinding.FragmentConfirmTransferBinding
 import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.GetMask
@@ -27,8 +28,6 @@ class ConfirmTransferFragment : Fragment() {
   private val args: ConfirmTransferFragmentArgs by navArgs()
   private val confirmTransferViewModel: ConfirmTransferViewModel by viewModels()
 
-  private var userBalance: Float = 0f
-
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
     savedInstanceState: Bundle?
@@ -42,32 +41,55 @@ class ConfirmTransferFragment : Fragment() {
 
     initToolbar(binding.toolbar)
     configData()
-    getBalance()
     initListeners()
   }
 
   private fun initListeners() {
-    binding.btnConfirm.setOnClickListener {
-      if (userBalance >= args.amount) {
-      } else {
-        showBottomSheet(message = getString(R.string.text_message_insufficient_balance_confirm_transfer_fragment))
-      }
-    }
+    binding.btnConfirm.setOnClickListener { getBalance() }
   }
 
   private fun getBalance() {
     confirmTransferViewModel.getBalance().observe(viewLifecycleOwner) { stateView ->
       when (stateView) {
         is StateView.Loading -> {
+          binding.progressBar.isVisible = true
         }
 
         is StateView.Success -> {
-          stateView.data?.let { balance ->
-            userBalance = balance
+          if ((stateView.data ?: 0f) >= args.amount) {
+            val transfer = Transfer(
+              idUserReceived = args.user.id,
+              idUserSent = FirebaseHelper.getUserId(),
+              amount = args.amount
+            )
+
+            saveTransfer(transfer)
+          } else {
+            showBottomSheet(message = getString(R.string.text_message_insufficient_balance_confirm_transfer_fragment))
           }
         }
 
         is StateView.Error -> {
+          binding.progressBar.isVisible = false
+          val message = FirebaseHelper.validError(stateView.message.toString())
+          showBottomSheet(message = getString(message))
+        }
+      }
+    }
+  }
+
+  private fun saveTransfer(transfer: Transfer) {
+    confirmTransferViewModel.saveTransfer(transfer).observe(viewLifecycleOwner) { stateView ->
+      when (stateView) {
+        is StateView.Loading -> {
+        }
+
+        is StateView.Success -> {
+          Toast.makeText(requireContext(), "Tudo certo", Toast.LENGTH_SHORT).show()
+        }
+
+        is StateView.Error -> {
+          binding.progressBar.isVisible = false
           val message = FirebaseHelper.validError(stateView.message.toString())
           showBottomSheet(message = getString(message))
         }

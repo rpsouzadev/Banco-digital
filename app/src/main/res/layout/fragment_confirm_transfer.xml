@@ -39,9 +39,9 @@
 
         <ImageView
             android:id="@+id/imageTransfer"
-            android:layout_marginTop="16dp"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginTop="16dp"
             android:src="@drawable/ic_transfer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -88,10 +88,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textStyle="bold"
-            tools:text="nome do usuario"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_image"/>
+            app:layout_constraintTop_toBottomOf="@+id/user_image"
+            tools:text="nome do usuario" />
 
         <View
             android:id="@+id/view2"
@@ -125,12 +125,26 @@
             app:layout_constraintTop_toBottomOf="@+id/view2"
             tools:text="R$ 30,00" />
 
+
+        <ProgressBar
+            android:id="@id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:indeterminateTint="@color/color_default"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/btn_confirm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view2"
+            tools:visibility="visible" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_button"
             android:layout_margin="16dp"
+            android:background="@drawable/bg_button"
             android:text="@string/text_button_confirm_transfer_fragment"
             app:backgroundTint="@color/color_sucess"
             app:layout_constraintBottom_toBottomOf="parent"
