@@ -40,9 +40,9 @@ class ProfileDataSourceImpl @Inject constructor(
     }
   }
 
-  override suspend fun getProfile(): User {
+  override suspend fun getProfile(idUser: String): User {
     return suspendCoroutine { continuation ->
-      profileDatabaseReference.child(FirebaseHelper.getUserId())
+      profileDatabaseReference.child(idUser)
         .addListenerForSingleValueEvent(
           object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

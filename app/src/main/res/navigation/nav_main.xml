@@ -182,7 +182,7 @@
         <action
             android:id="@+id/action_confirmTransferFragment_to_transferReceiptFragment"
             app:destination="@id/transferReceiptFragment"
-            app:popUpTo="@id/transferFormFragment"
+            app:popUpTo="@id/transferUserListFragment"
             app:popUpToInclusive="true"/>
     </fragment>
     <fragment
@@ -193,5 +193,8 @@
         <argument
             android:name="idTransfer"
             app:argType="string" />
+        <argument
+            android:name="homeAsUpEnabled"
+            app:argType="boolean" />
     </fragment>
 </navigation>

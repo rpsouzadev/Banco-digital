@@ -1,8 +1,12 @@
 package com.rpsouza.bancodigital.data.repository.transfer
 
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
+import com.google.firebase.database.ValueEventListener
 import com.rpsouza.bancodigital.data.model.Transfer
+import com.rpsouza.bancodigital.utils.FirebaseHelper
 import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
@@ -12,6 +16,25 @@ class TransferDataSourceImpl @Inject constructor(
 
   private val transferReference = database.reference
     .child("transfer")
+
+  override suspend fun getTransfer(idTransfer: String): Transfer {
+    return suspendCoroutine { continuation ->
+      transferReference.child(FirebaseHelper.getUserId()).child(idTransfer)
+        .addListenerForSingleValueEvent(object : ValueEventListener {
+          override fun onDataChange(snapshot: DataSnapshot) {
+            val transfer = snapshot.getValue(Transfer::class.java)
+            transfer?.let {
+              continuation.resumeWith(Result.success(it))
+            }
+          }
+
+          override fun onCancelled(error: DatabaseError) {
+            continuation.resumeWith(Result.failure(error.toException()))
+          }
+
+        })
+    }
+  }
 
   override suspend fun saveTransfer(transfer: Transfer) {
     return suspendCoroutine { continuation ->

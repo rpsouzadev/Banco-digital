@@ -5,6 +5,7 @@ import androidx.lifecycle.liveData
 import com.rpsouza.bancodigital.domain.profile.GetProfileUseCase
 import com.rpsouza.bancodigital.domain.transaction.GetTransactionsUseCase
 import com.rpsouza.bancodigital.domain.wallet.GetWalletUseCase
+import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +46,7 @@ class HomeViewModel @Inject constructor(
     try {
       emit(StateView.Loading())
 
-      val profile = getProfileUseCase.invoke()
+      val profile = getProfileUseCase.invoke(FirebaseHelper.getUserId())
 
       emit(StateView.Success(profile))
     } catch (ex: Exception) {
