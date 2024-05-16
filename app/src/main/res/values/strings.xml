@@ -129,7 +129,7 @@
     <!--    ReceiptTransferFragment-->
     <string name="text_title_toolbar_receipt_transfer_fragment">Recibo</string>
     <string name="text_message_receipt_transfer_fragment">Transferência efetuada \ncom sucesso!</string>
-    <string name="text_message_time_receipt_transfer_fragment">Transferência realizada com sucesso. A previsão de crédito na conta de destino é de até 30 minutos.</string>
+    <string name="text_message_time_receipt_transfer_fragment">Transferência realizada com sucesso. A previsão de \ncrédito na conta de destino é de até 30 minutos.</string>
     <string name="text_code_transaction_receipt_transfer_fragment">Código Transasão</string>
     <string name="text_date_transaction_receipt_transfer_fragment">Data transferência</string>
     <string name="text_amount_transaction_receipt_transfer_fragment">Valor transferência</string>
