@@ -11,8 +11,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rpsouza.bancodigital.R
+import com.rpsouza.bancodigital.data.enum.TransactionOperation
+import com.rpsouza.bancodigital.data.enum.TransactionType
+import com.rpsouza.bancodigital.data.model.Deposit
+import com.rpsouza.bancodigital.data.model.Transaction
 import com.rpsouza.bancodigital.data.model.Transfer
 import com.rpsouza.bancodigital.databinding.FragmentConfirmTransferBinding
+import com.rpsouza.bancodigital.presenter.features.deposit.DepositFormFragmentDirections
 import com.rpsouza.bancodigital.utils.FirebaseHelper
 import com.rpsouza.bancodigital.utils.GetMask
 import com.rpsouza.bancodigital.utils.StateView
@@ -86,6 +91,25 @@ class ConfirmTransferFragment : Fragment() {
         }
 
         is StateView.Success -> {
+          saveTransaction(transfer)
+        }
+
+        is StateView.Error -> {
+          binding.progressBar.isVisible = false
+          val message = FirebaseHelper.validError(stateView.message.toString())
+          showBottomSheet(message = getString(message))
+        }
+      }
+    }
+  }
+
+  private fun saveTransaction(transfer: Transfer) {
+    confirmTransferViewModel.saveTransaction(transfer).observe(viewLifecycleOwner) { stateView ->
+      when (stateView) {
+        is StateView.Loading -> {
+        }
+
+        is StateView.Success -> {
           val action = ConfirmTransferFragmentDirections
             .actionConfirmTransferFragmentToTransferReceiptFragment(idTransfer = transfer.id, homeAsUpEnabled = false)
           findNavController().navigate(action)
@@ -93,8 +117,7 @@ class ConfirmTransferFragment : Fragment() {
 
         is StateView.Error -> {
           binding.progressBar.isVisible = false
-          val message = FirebaseHelper.validError(stateView.message.toString())
-          showBottomSheet(message = getString(message))
+          showBottomSheet(message = stateView.message)
         }
       }
     }

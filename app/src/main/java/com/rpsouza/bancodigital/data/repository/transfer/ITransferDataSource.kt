@@ -6,4 +6,6 @@ interface ITransferDataSource {
   suspend fun getTransfer(idTransfer: String): Transfer
 
   suspend fun saveTransfer(transfer: Transfer)
+
+  suspend fun saveTransferTransaction(transfer: Transfer)
 }

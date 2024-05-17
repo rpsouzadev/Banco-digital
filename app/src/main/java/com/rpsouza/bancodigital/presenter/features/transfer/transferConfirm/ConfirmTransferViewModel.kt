@@ -2,8 +2,11 @@ package com.rpsouza.bancodigital.presenter.features.transfer.transferConfirm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import com.rpsouza.bancodigital.data.model.Transaction
 import com.rpsouza.bancodigital.data.model.Transfer
 import com.rpsouza.bancodigital.domain.transaction.GetBalanceUseCase
+import com.rpsouza.bancodigital.domain.transaction.SaveTransactionUseCase
+import com.rpsouza.bancodigital.domain.transfer.SaveTransferTransactionUseCase
 import com.rpsouza.bancodigital.domain.transfer.SaveTransferUserCase
 import com.rpsouza.bancodigital.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ConfirmTransferViewModel @Inject constructor(
   private val getBalanceUseCase: GetBalanceUseCase,
-  private val saveTransferUseCase: SaveTransferUserCase
+  private val saveTransferUseCase: SaveTransferUserCase,
+  private val saveTransferTransactionUseCase: SaveTransferTransactionUseCase
 ) : ViewModel() {
 
   fun getBalance() = liveData(Dispatchers.IO) {
@@ -35,6 +39,19 @@ class ConfirmTransferViewModel @Inject constructor(
       saveTransferUseCase.invoke(transfer)
 
       emit(StateView.Success(Unit))
+
+    } catch (e: Exception) {
+      emit(StateView.Error(e.message))
+    }
+  }
+
+  fun saveTransaction(transfer: Transfer) = liveData(Dispatchers.IO) {
+    try {
+      emit(StateView.Loading())
+
+      saveTransferTransactionUseCase.invoke(transfer)
+
+      emit(StateView.Success(null))
 
     } catch (e: Exception) {
       emit(StateView.Error(e.message))

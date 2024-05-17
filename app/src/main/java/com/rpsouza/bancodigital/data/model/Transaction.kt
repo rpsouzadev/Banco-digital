@@ -5,7 +5,7 @@ import com.rpsouza.bancodigital.data.enum.TransactionType
 
 data class Transaction(
   var id: String = "",
-  val date: Long = 0,
+  var date: Long = System.currentTimeMillis(),
   val amount: Float = 0f,
   var type: TransactionType? = null,
   val operation: TransactionOperation? = null,

@@ -5,6 +5,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ServerValue
 import com.google.firebase.database.ValueEventListener
+import com.rpsouza.bancodigital.data.enum.TransactionOperation
+import com.rpsouza.bancodigital.data.enum.TransactionType
+import com.rpsouza.bancodigital.data.model.Transaction
 import com.rpsouza.bancodigital.data.model.Transfer
 import com.rpsouza.bancodigital.utils.FirebaseHelper
 import javax.inject.Inject
@@ -16,6 +19,9 @@ class TransferDataSourceImpl @Inject constructor(
 
   private val transferReference = database.reference
     .child("transfer")
+
+  private val transactionReference = database.reference
+    .child("transaction")
 
   override suspend fun getTransfer(idTransfer: String): Transfer {
     return suspendCoroutine { continuation ->
@@ -55,6 +61,48 @@ class TransferDataSourceImpl @Inject constructor(
 
           } else {
             task.exception?.let {
+              continuation.resumeWith(Result.failure(it))
+            }
+          }
+        }
+    }
+  }
+
+  override suspend fun saveTransferTransaction(transfer: Transfer) {
+    return suspendCoroutine { continuation ->
+      val transactionUserSend = Transaction(
+        id = transfer.id,
+        date = transfer.date,
+        amount = transfer.amount,
+        type = TransactionType.CASH_OUT,
+        operation = TransactionOperation.TRANSFER,
+      )
+
+      val transactionUserReceived = Transaction(
+        id = transfer.id,
+        date = transfer.date,
+        amount = transfer.amount,
+        type = TransactionType.CASH_IN,
+        operation = TransactionOperation.TRANSFER,
+      )
+
+      transactionReference.child(transfer.idUserSent).child(transfer.id)
+        .setValue(transactionUserSend).addOnCompleteListener { taskUserSent ->
+          if (taskUserSent.isSuccessful) {
+
+            transactionReference.child(transfer.idUserReceived).child(transfer.id)
+              .setValue(transactionUserReceived).addOnCompleteListener { taskUserReceived ->
+                if (taskUserReceived.isSuccessful) {
+                  continuation.resumeWith(Result.success(Unit))
+                } else {
+                  taskUserReceived.exception?.let {
+                    continuation.resumeWith(Result.failure(it))
+                  }
+                }
+              }
+
+          } else {
+            taskUserSent.exception?.let {
               continuation.resumeWith(Result.failure(it))
             }
           }

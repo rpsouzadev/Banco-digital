@@ -11,6 +11,9 @@ enum class TransactionType {
         TransactionOperation.RECHARGE -> {
           'R'
         }
+        TransactionOperation.TRANSFER -> {
+          'T'
+        }
       }
     }
   }

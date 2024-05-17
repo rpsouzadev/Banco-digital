@@ -23,20 +23,7 @@ class TransactionDataSourceImpl @Inject constructor(
       transactionReference.child(transaction.id)
         .setValue(transaction).addOnCompleteListener { task ->
           if (task.isSuccessful) {
-            val dateReference = transactionReference
-              .child(transaction.id)
-              .child("date")
-
-            dateReference.setValue(ServerValue.TIMESTAMP)
-              .addOnCompleteListener { taskUpdate ->
-                if (taskUpdate.isSuccessful) {
-                  continuation.resumeWith(Result.success(Unit))
-                } else {
-                  taskUpdate.exception?.let {
-                    continuation.resumeWith(Result.failure(it))
-                  }
-                }
-              }
+            continuation.resumeWith(Result.success(Unit))
           } else {
             task.exception?.let {
               continuation.resumeWith(Result.failure(it))
