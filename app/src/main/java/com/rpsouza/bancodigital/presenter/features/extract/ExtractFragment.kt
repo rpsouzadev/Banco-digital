@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.rpsouza.bancodigital.NavMainDirections
 import com.rpsouza.bancodigital.data.enum.TransactionOperation
 import com.rpsouza.bancodigital.databinding.FragmentExtractBinding
 import com.rpsouza.bancodigital.presenter.home.TransactionAdapter
@@ -44,22 +45,22 @@ class ExtractFragment : Fragment() {
     adapterTransaction = TransactionAdapter(requireContext()) { transaction ->
       when (transaction.operation) {
         TransactionOperation.DEPOSIT -> {
-          val action = ExtractFragmentDirections
-            .actionExtractFragmentToDepositReceiptFragment(transaction.id, true)
+          val action = NavMainDirections
+            .actionGlobalDepositReceiptFragment(transaction.id, true)
 
           findNavController().navigate(action)
         }
 
         TransactionOperation.RECHARGE -> {
-          val action = ExtractFragmentDirections
-            .actionExtractFragmentToRechargeReceiptFragment(transaction.id)
+          val action = NavMainDirections
+            .actionGlobalRechargeReceiptFragment(transaction.id)
 
           findNavController().navigate(action)
         }
 
         TransactionOperation.TRANSFER -> {
-          val action = ExtractFragmentDirections
-            .actionExtractFragmentToTransferReceiptFragment(transaction.id, homeAsUpEnabled = true)
+          val action = NavMainDirections
+            .actionGlobalTransferReceiptFragment(transaction.id, homeAsUpEnabled = true)
 
           findNavController().navigate(action)
         }

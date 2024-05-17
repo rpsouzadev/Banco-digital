@@ -9,6 +9,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.rpsouza.bancodigital.NavMainDirections
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.enum.TransactionOperation
 import com.rpsouza.bancodigital.data.enum.TransactionType
@@ -116,8 +117,8 @@ class RechargeFormFragment : BaseFragment() {
         }
 
         is StateView.Success -> {
-          val action = RechargeFormFragmentDirections
-            .actionRechargeFormFragmentToRechargeReceiptFragment(recharge.id)
+          val action = NavMainDirections
+            .actionGlobalRechargeReceiptFragment(recharge.id)
 
           findNavController().navigate(action)
         }

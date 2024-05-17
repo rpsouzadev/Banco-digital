@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.rpsouza.bancodigital.NavMainDirections
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.enum.TransactionOperation
 import com.rpsouza.bancodigital.data.enum.TransactionType
@@ -110,8 +111,8 @@ class ConfirmTransferFragment : Fragment() {
         }
 
         is StateView.Success -> {
-          val action = ConfirmTransferFragmentDirections
-            .actionConfirmTransferFragmentToTransferReceiptFragment(idTransfer = transfer.id, homeAsUpEnabled = false)
+          val action = NavMainDirections
+            .actionGlobalTransferReceiptFragment(idTransfer = transfer.id, homeAsUpEnabled = false)
           findNavController().navigate(action)
         }
 

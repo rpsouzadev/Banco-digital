@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.rpsouza.bancodigital.NavMainDirections
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.enum.TransactionOperation
 import com.rpsouza.bancodigital.data.enum.TransactionType
@@ -50,7 +52,9 @@ class HomeFragment : Fragment() {
   private fun initListeners() {
     binding.btnLogout.setOnClickListener {
       FirebaseHelper.getAuth().signOut()
-      findNavController().navigate(R.id.action_homeFragment_to_nav_auth)
+
+      val navOption: NavOptions = NavOptions.Builder().setPopUpTo(R.id.homeFragment, true).build()
+      findNavController().navigate(R.id.action_global_nav_auth, null, navOption)
     }
 
     binding.cardDeposit.setOnClickListener {
@@ -82,22 +86,22 @@ class HomeFragment : Fragment() {
     adapterTransaction = TransactionAdapter(requireContext()) { transaction ->
       when (transaction.operation) {
         TransactionOperation.DEPOSIT -> {
-          val action = HomeFragmentDirections
-            .actionHomeFragmentToDepositReceiptFragment(transaction.id, true)
+          val action = NavMainDirections
+            .actionGlobalDepositReceiptFragment(transaction.id, true)
 
           findNavController().navigate(action)
         }
 
         TransactionOperation.RECHARGE -> {
-          val action = HomeFragmentDirections
-            .actionHomeFragmentToRechargeReceiptFragment(transaction.id)
+          val action = NavMainDirections
+            .actionGlobalRechargeReceiptFragment(transaction.id)
 
           findNavController().navigate(action)
         }
 
         TransactionOperation.TRANSFER -> {
-          val action = HomeFragmentDirections
-            .actionHomeFragmentToTransferReceiptFragment(transaction.id, homeAsUpEnabled = true)
+          val action = NavMainDirections
+            .actionGlobalTransferReceiptFragment(transaction.id, homeAsUpEnabled = true)
 
           findNavController().navigate(action)
         }

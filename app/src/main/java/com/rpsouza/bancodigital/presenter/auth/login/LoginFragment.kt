@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.databinding.FragmentLoginBinding
@@ -81,7 +82,8 @@ class LoginFragment : BaseFragment() {
         is StateView.Success -> {
           binding.progressBarLogin.isVisible = false
 
-         findNavController().navigate(R.id.action_global_homeFragment)
+          val navOption: NavOptions = NavOptions.Builder().setPopUpTo(R.id.nav_auth, true).build()
+          findNavController().navigate(R.id.action_global_homeFragment, null, navOption)
         }
 
         is StateView.Error -> {

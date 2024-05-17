@@ -9,18 +9,7 @@
         android:id="@+id/splashFragment"
         android:name="com.rpsouza.bancodigital.presenter.splash.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash">
-        <action
-            android:id="@+id/action_splashFragment_to_nav_auth"
-            app:destination="@id/nav_auth"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_splashFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        tools:layout="@layout/fragment_splash"/>
     <navigation
         android:id="@+id/nav_auth"
         app:startDestination="@id/loginFragment">
@@ -46,31 +35,18 @@
             android:name="com.rpsouza.bancodigital.presenter.auth.recover.RecoverFragment"
             android:label="fragment_recover"
             tools:layout="@layout/fragment_recover" />
-        <action
-            android:id="@+id/action_global_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/nav_auth"
-            app:popUpToInclusive="true"/>
     </navigation>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.rpsouza.bancodigital.presenter.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_depositFormFragment"
             app:destination="@id/depositFormFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_depositReceiptFragment"
-            app:destination="@id/depositReceiptFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_extractFragment"
             app:destination="@id/extractFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_nav_auth"
-            app:destination="@id/nav_auth"
-            app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -78,31 +54,19 @@
             android:id="@+id/action_homeFragment_to_rechargeFormFragment"
             app:destination="@id/rechargeFormFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_rechargeReceiptFragment"
-            app:destination="@id/rechargeReceiptFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_transferUserListFragment"
             app:destination="@id/transferUserListFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_transferReceiptFragment"
-            app:destination="@id/transferReceiptFragment" />
     </fragment>
     <fragment
         android:id="@+id/depositFormFragment"
         android:name="com.rpsouza.bancodigital.presenter.features.deposit.DepositFormFragment"
         android:label="fragment_deposit_form"
-        tools:layout="@layout/fragment_deposit_form" >
-        <action
-            android:id="@+id/action_depositFormFragment_to_depositReceiptFragment"
-            app:destination="@id/depositReceiptFragment"
-            app:popUpTo="@id/depositFormFragment"
-            app:popUpToInclusive="true"/>
-    </fragment>
+        tools:layout="@layout/fragment_deposit_form"/>
     <fragment
         android:id="@+id/depositReceiptFragment"
         android:name="com.rpsouza.bancodigital.presenter.features.deposit.DepositReceiptFragment"
         android:label="fragment_deposit_receipt"
-        tools:layout="@layout/fragment_deposit_receipt" >
+        tools:layout="@layout/fragment_deposit_receipt">
         <argument
             android:name="idDeposit"
             app:argType="string" />
@@ -117,17 +81,7 @@
         android:id="@+id/extractFragment"
         android:name="com.rpsouza.bancodigital.presenter.features.extract.ExtractFragment"
         android:label="fragment_extract"
-        tools:layout="@layout/fragment_extract" >
-        <action
-            android:id="@+id/action_extractFragment_to_depositReceiptFragment"
-            app:destination="@id/depositReceiptFragment" />
-        <action
-            android:id="@+id/action_extractFragment_to_rechargeReceiptFragment"
-            app:destination="@id/rechargeReceiptFragment" />
-        <action
-            android:id="@+id/action_extractFragment_to_transferReceiptFragment"
-            app:destination="@id/transferReceiptFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_extract"/>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.rpsouza.bancodigital.presenter.profile.ProfileFragment"
@@ -137,18 +91,12 @@
         android:id="@+id/rechargeFormFragment"
         android:name="com.rpsouza.bancodigital.presenter.features.recharge.RechargeFormFragment"
         android:label="fragment_recharge_form"
-        tools:layout="@layout/fragment_recharge_form" >
-        <action
-            android:id="@+id/action_rechargeFormFragment_to_rechargeReceiptFragment"
-            app:destination="@id/rechargeReceiptFragment"
-            app:popUpTo="@id/rechargeFormFragment"
-            app:popUpToInclusive="true"/>
-    </fragment>
+        tools:layout="@layout/fragment_recharge_form"/>
     <fragment
         android:id="@+id/rechargeReceiptFragment"
         android:name="com.rpsouza.bancodigital.presenter.features.recharge.RechargeReceiptFragment"
         android:label="fragment_recharge_receipt"
-        tools:layout="@layout/fragment_recharge_receipt" >
+        tools:layout="@layout/fragment_recharge_receipt">
         <argument
             android:name="idRecharge"
             app:argType="string" />
@@ -157,7 +105,7 @@
         android:id="@+id/transferUserListFragment"
         android:name="com.rpsouza.bancodigital.presenter.features.transfer.transferUserList.TransferUserListFragment"
         android:label="fragment_transfer_user_list"
-        tools:layout="@layout/fragment_transfer_user_list" >
+        tools:layout="@layout/fragment_transfer_user_list">
         <action
             android:id="@+id/action_transferUserListFragment_to_transferFormFragment"
             app:destination="@id/transferFormFragment" />
@@ -166,7 +114,7 @@
         android:id="@+id/transferFormFragment"
         android:name="com.rpsouza.bancodigital.presenter.features.transfer.TransferFormFragment"
         android:label="fragment_transfer_form"
-        tools:layout="@layout/fragment_transfer_form" >
+        tools:layout="@layout/fragment_transfer_form">
         <action
             android:id="@+id/action_transferFormFragment_to_confirmTransferFragment"
             app:destination="@id/confirmTransferFragment" />
@@ -178,24 +126,19 @@
         android:id="@+id/confirmTransferFragment"
         android:name="com.rpsouza.bancodigital.presenter.features.transfer.transferConfirm.ConfirmTransferFragment"
         android:label="fragment_confirm_transfer"
-        tools:layout="@layout/fragment_confirm_transfer" >
+        tools:layout="@layout/fragment_confirm_transfer">
         <argument
             android:name="user"
             app:argType="com.rpsouza.bancodigital.data.model.User" />
         <argument
             android:name="amount"
             app:argType="float" />
-        <action
-            android:id="@+id/action_confirmTransferFragment_to_transferReceiptFragment"
-            app:destination="@id/transferReceiptFragment"
-            app:popUpTo="@id/transferUserListFragment"
-            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/transferReceiptFragment"
         android:name="com.rpsouza.bancodigital.presenter.features.transfer.transferReceipt.TransferReceiptFragment"
         android:label="fragment_transfer_receipt"
-        tools:layout="@layout/fragment_transfer_receipt" >
+        tools:layout="@layout/fragment_transfer_receipt">
         <argument
             android:name="idTransfer"
             app:argType="string" />
@@ -203,4 +146,7 @@
             android:name="homeAsUpEnabled"
             app:argType="boolean" />
     </fragment>
+    <action android:id="@+id/action_global_depositReceiptFragment" app:destination="@id/depositReceiptFragment" />
+    <action android:id="@+id/action_global_transferReceiptFragment" app:destination="@id/transferReceiptFragment" />
+    <action android:id="@+id/action_global_rechargeReceiptFragment" app:destination="@id/rechargeReceiptFragment" /><action android:id="@+id/action_global_nav_auth" app:destination="@id/nav_auth"/><action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment"/>
 </navigation>
