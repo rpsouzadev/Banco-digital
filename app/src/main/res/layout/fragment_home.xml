@@ -24,13 +24,12 @@
                 android:id="@+id/user_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:layout_gravity="center_horizontal"
                 app:border_color="@color/white"
                 app:border_size="2dp"
-                android:layout_gravity="center_horizontal"
-                tools:src="@drawable/spider_men"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/spider_men" />
 
 
             <ImageView
@@ -108,11 +107,23 @@
                         android:id="@+id/progress_bar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="invisible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/text_empty_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_message_empty_transactions_home_fragment"
                         android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/rv_transactions"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:visibility="visible"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

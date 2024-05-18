@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rpsouza.bancodigital.NavMainDirections
@@ -113,7 +114,8 @@ class ConfirmTransferFragment : Fragment() {
         is StateView.Success -> {
           val action = NavMainDirections
             .actionGlobalTransferReceiptFragment(idTransfer = transfer.id, homeAsUpEnabled = false)
-          findNavController().navigate(action)
+          val navOption: NavOptions = NavOptions.Builder().setPopUpTo(R.id.transferFormFragment, true).build()
+          findNavController().navigate(action, navOption)
         }
 
         is StateView.Error -> {

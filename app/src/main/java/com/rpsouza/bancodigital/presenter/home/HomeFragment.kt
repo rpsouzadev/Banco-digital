@@ -160,6 +160,8 @@ class HomeFragment : Fragment() {
 
           adapterTransaction.submitList(stateView.data?.reversed()?.take(6))
 
+          binding.textEmptyMessage.isVisible = stateView.data?.isEmpty() == true
+
           showBalance(stateView.data ?: emptyList())
         }
 

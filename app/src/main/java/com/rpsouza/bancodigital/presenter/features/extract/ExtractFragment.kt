@@ -87,6 +87,8 @@ class ExtractFragment : Fragment() {
           binding.progressBar.isVisible = false
 
           adapterTransaction.submitList(stateView.data?.reversed())
+
+          binding.textEmptyMessage.isVisible = stateView.data?.isEmpty() == true
         }
 
         is StateView.Error -> {

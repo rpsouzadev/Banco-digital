@@ -64,9 +64,11 @@ class TransferUserListFragment : Fragment() {
             user.name.contains(newText, true)
           }
           adapterTransferUser.submitList(newList)
+          configEmptyList(newList)
           true
         } else {
           adapterTransferUser.submitList(profileList)
+          configEmptyList(profileList)
           false
         }
       }
@@ -82,6 +84,7 @@ class TransferUserListFragment : Fragment() {
 
       override fun onSearchViewClosed() {
         adapterTransferUser.submitList(profileList)
+        configEmptyList(profileList)
       }
 
       override fun onSearchViewShownAnimation() {
@@ -103,6 +106,7 @@ class TransferUserListFragment : Fragment() {
           binding.progressBar.isVisible = false
           profileList = stateView.data ?: emptyList()
           adapterTransferUser.submitList(profileList)
+          configEmptyList(profileList)
         }
 
         is StateView.Error -> {
@@ -131,6 +135,10 @@ class TransferUserListFragment : Fragment() {
     val item = menu.findItem(R.id.action_search)
     binding.searchView.setMenuItem(item)
     super.onCreateOptionsMenu(menu, inflater)
+  }
+
+  fun configEmptyList(list: List<User>) {
+    binding.textEmptyMessage.isVisible = list.isEmpty()
   }
 
   override fun onDestroy() {

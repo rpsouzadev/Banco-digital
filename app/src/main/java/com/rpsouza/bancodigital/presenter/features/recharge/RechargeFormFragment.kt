@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.NavMainDirections
 import com.rpsouza.bancodigital.R
@@ -120,7 +121,8 @@ class RechargeFormFragment : BaseFragment() {
           val action = NavMainDirections
             .actionGlobalRechargeReceiptFragment(recharge.id)
 
-          findNavController().navigate(action)
+          val navOption: NavOptions = NavOptions.Builder().setPopUpTo(R.id.rechargeFormFragment, true).build()
+          findNavController().navigate(action, navOption)
         }
 
         is StateView.Error -> {

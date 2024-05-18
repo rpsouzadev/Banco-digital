@@ -10,8 +10,10 @@ import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.bancodigital.NavMainDirections
+import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.enum.TransactionOperation
 import com.rpsouza.bancodigital.data.enum.TransactionType
 import com.rpsouza.bancodigital.data.model.Deposit
@@ -115,7 +117,8 @@ class DepositFormFragment : BaseFragment() {
           val action = NavMainDirections
             .actionGlobalDepositReceiptFragment(deposit.id, false)
 
-          findNavController().navigate(action)
+          val navOption: NavOptions = NavOptions.Builder().setPopUpTo(R.id.depositFormFragment , true).build()
+          findNavController().navigate(action, navOption)
         }
 
         is StateView.Error -> {
