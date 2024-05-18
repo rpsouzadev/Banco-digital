@@ -53,7 +53,10 @@ class ConfirmTransferFragment : Fragment() {
   }
 
   private fun initListeners() {
-    binding.btnConfirm.setOnClickListener { getBalance() }
+    binding.btnConfirm.setOnClickListener {
+      binding.btnConfirm.isEnabled = false
+      getBalance()
+    }
   }
 
   private fun getBalance() {
@@ -73,12 +76,14 @@ class ConfirmTransferFragment : Fragment() {
 
             saveTransfer(transfer)
           } else {
+            binding.btnConfirm.isEnabled = true
             showBottomSheet(message = getString(R.string.text_message_insufficient_balance_confirm_transfer_fragment))
           }
         }
 
         is StateView.Error -> {
           binding.progressBar.isVisible = false
+          binding.btnConfirm.isEnabled = true
           val message = FirebaseHelper.validError(stateView.message.toString())
           showBottomSheet(message = getString(message))
         }
