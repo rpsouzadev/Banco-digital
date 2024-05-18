@@ -12,7 +12,9 @@ import androidx.navigation.fragment.navArgs
 import com.rpsouza.bancodigital.R
 import com.rpsouza.bancodigital.data.model.Recharge
 import com.rpsouza.bancodigital.databinding.FragmentRechargeReceiptBinding
+import com.rpsouza.bancodigital.utils.Constants
 import com.rpsouza.bancodigital.utils.GetMask
+import com.rpsouza.bancodigital.utils.Mask
 import com.rpsouza.bancodigital.utils.StateView
 import com.rpsouza.bancodigital.utils.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,7 +67,7 @@ class RechargeReceiptFragment : Fragment() {
       textDate.text = GetMask.getFormatedDate(recharge.date, GetMask.DAY_MONTH_YEAR_HOUR_MINUTE)
       textAmount.text =
         getString(R.string.text_formated_value, GetMask.getFormatedValue(recharge.amount))
-      textPhoneNumber.text = recharge.phoneNumber
+      textPhoneNumber.text = Mask.mask(Constants.Mask.MASK_PHONE, recharge.phoneNumber)
     }
   }
 
